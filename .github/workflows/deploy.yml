@@ -1,0 +1,75 @@
+name: Validate & Deploy Platform_Design
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-database:
+    name: Validate Database Schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Validate schema.sql
+        run: |
+          python3 -c "
+          import sqlite3, sys
+          conn = sqlite3.connect(':memory:')
+          conn.execute('PRAGMA foreign_keys = ON')
+          try:
+              conn.executescript(open('db_files/esau/schema.sql').read())
+              conn.executescript(open('db_files/esau/sample_data.sql').read())
+              tables = conn.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()
+              print('Tables found:', [t[0] for t in tables])
+              users = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
+              print(f'Users in sample data: {users}')
+              print('Schema validation PASSED')
+          except Exception as e:
+              print(f'Schema validation FAILED: {e}')
+              sys.exit(1)
+          "
+
+      - name: Check required files
+        run: |
+          echo "Checking required files..."
+          test -f README.md            && echo "README.md OK" || (echo "MISSING: README.md" && exit 1)
+          test -f db_files/esau/schema.sql      && echo "schema.sql OK"
+          test -f db_files/esau/sample_data.sql && echo "sample_data.sql OK"
+          test -f db_files/esau/data/users.csv  && echo "users.csv OK"
+          test -f db_files/esau/data/sample_data.json && echo "sample_data.json OK"
+          test -f db_files/yeimi/api_endpoints.md && echo "api_endpoints.md OK"
+          test -f db_files/gael/project_form.html && echo "project_form.html OK"
+          test -f db_files/dalila/generate_data.py && echo "generate_data.py OK"
+          echo "All required files present."
+
+  generate-data:
+    name: Generate Sample Data
+    runs-on: ubuntu-latest
+    needs: validate-database
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install faker
+
+      - name: Run data generation script
+        run: |
+          cd db_files/dalila
+          python generate_data.py
+          echo "Data generation completed."
+          cat generated_data.sql | head -20

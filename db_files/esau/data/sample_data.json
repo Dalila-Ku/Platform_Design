@@ -1,0 +1,141 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "full_name": "Dalila Ku",
+      "email": "dalila.ku.dzul@gmail.com",
+      "role": "admin"
+    },
+    {
+      "user_id": 2,
+      "full_name": "Esau Palomo",
+      "email": "Esau_palomo@hotmail.com",
+      "role": "leader"
+    },
+    {
+      "user_id": 3,
+      "full_name": "Yeimi Piste",
+      "email": "yeimypiste@gmail.com",
+      "role": "member"
+    },
+    {
+      "user_id": 4,
+      "full_name": "Gael Perez",
+      "email": "glape245@gmail.com",
+      "role": "member"
+    },
+    {
+      "user_id": 5,
+      "full_name": "Ingrid Castillo",
+      "email": "jazcastillo0609@gmail.com",
+      "role": "member"
+    }
+  ],
+  "projects": [
+    {
+      "project_id": 1,
+      "name": "Plataforma Web Equipo Yucateco",
+      "status": "active",
+      "priority": "high",
+      "start_date": "2026-05-01",
+      "due_date": "2026-07-30",
+      "owner_id": 1
+    },
+    {
+      "project_id": 2,
+      "name": "Rediseno de API REST",
+      "status": "active",
+      "priority": "medium",
+      "start_date": "2026-06-01",
+      "due_date": "2026-07-15",
+      "owner_id": 2
+    },
+    {
+      "project_id": 3,
+      "name": "Migracion de Base de Datos",
+      "status": "on_hold",
+      "priority": "critical",
+      "start_date": "2026-04-15",
+      "due_date": "2026-06-30",
+      "owner_id": 1
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": 1,
+      "project_id": 1,
+      "title": "Crear schema.sql",
+      "status": "done",
+      "priority": "high",
+      "due_date": "2026-06-19",
+      "estimated_hours": 4.0,
+      "created_by": 2
+    },
+    {
+      "task_id": 2,
+      "project_id": 1,
+      "title": "Insertar datos de ejemplo",
+      "status": "done",
+      "priority": "medium",
+      "due_date": "2026-06-19",
+      "estimated_hours": 2.0,
+      "created_by": 2
+    },
+    {
+      "task_id": 3,
+      "project_id": 1,
+      "title": "Disenar endpoint GET /projects",
+      "status": "in_progress",
+      "priority": "high",
+      "due_date": "2026-06-30",
+      "estimated_hours": 3.0,
+      "created_by": 1
+    },
+    {
+      "task_id": 4,
+      "project_id": 1,
+      "title": "Disenar endpoint POST /tasks",
+      "status": "todo",
+      "priority": "high",
+      "due_date": "2026-07-01",
+      "estimated_hours": 2.5,
+      "created_by": 1
+    },
+    {
+      "task_id": 5,
+      "project_id": 1,
+      "title": "Crear formulario de registro de tarea",
+      "status": "todo",
+      "priority": "medium",
+      "due_date": "2026-07-10",
+      "estimated_hours": 5.0,
+      "created_by": 3
+    },
+    {
+      "task_id": 6,
+      "project_id": 2,
+      "title": "Implementar JWT",
+      "status": "in_progress",
+      "priority": "critical",
+      "due_date": "2026-06-22",
+      "estimated_hours": 6.0,
+      "created_by": 4
+    },
+    {
+      "task_id": 7,
+      "project_id": 3,
+      "title": "Analizar estructura legacy",
+      "status": "todo",
+      "priority": "high",
+      "due_date": "2026-06-25",
+      "estimated_hours": 3.0,
+      "created_by": 2
+    }
+  ],
+  "metadata": {
+    "platform": "Gestor de Proyectos",
+    "team": "Equipo Yucateco Unido",
+    "generated": "2026-06-19",
+    "author": "Esau Palomo"
+  }
+}

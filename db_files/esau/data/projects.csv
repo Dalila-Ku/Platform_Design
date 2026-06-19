@@ -1,0 +1,4 @@
+project_id,name,status,priority,start_date,due_date,owner_id
+1,Plataforma Web Equipo Yucateco,active,high,2026-05-01,2026-07-30,1
+2,Rediseno de API REST,active,medium,2026-06-01,2026-07-15,2
+3,Migracion de Base de Datos,on_hold,critical,2026-04-15,2026-06-30,1

@@ -1,0 +1,8 @@
+task_id,project_id,title,status,priority,due_date,estimated_hours,created_by
+1,1,Crear schema.sql,done,high,2026-06-19,4.0,2
+2,1,Insertar datos de ejemplo,done,medium,2026-06-19,2.0,2
+3,1,Disenar endpoint GET /projects,in_progress,high,2026-06-30,3.0,1
+4,1,Disenar endpoint POST /tasks,todo,high,2026-07-01,2.5,1
+5,1,Crear formulario de registro de tarea,todo,medium,2026-07-10,5.0,3
+6,2,Implementar JWT,in_progress,critical,2026-06-22,6.0,4
+7,3,Analizar estructura legacy,todo,high,2026-06-25,3.0,2

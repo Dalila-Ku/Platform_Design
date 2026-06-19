@@ -2,18 +2,19 @@
 --  Platform_Design — Datos de Ejemplo
 --  Ejecutar DESPUES de schema.sql
 --  Plataforma: Gestor de Proyectos
+--  Autor: Esau Palomo | Rol: Diseno de Base de Datos
 -- ============================================================
 
--- Usuarios del sistema
-INSERT INTO users (full_name, email, role) VALUES
-    ('Dalila Ku',          'dalila.ku@upyucatan.edu.mx',   'admin'),
-    ('Esau Palomo',        'Esau_palomo@hotmail.com',      'leader'),
-    ('Ana Martinez',       'ana.martinez@upyucatan.edu.mx','member'),
-    ('Carlos Lopez',       'carlos.lopez@upyucatan.edu.mx','member'),
-    ('Sofia Herrera',      'sofia.herrera@upyucatan.edu.mx','member');
+-- Usuarios reales del equipo
+INSERT OR IGNORE INTO users (full_name, email, role) VALUES
+    ('Dalila Ku',        'dalila.ku.dzul@gmail.com',  'admin'),
+    ('Esau Palomo',      'Esau_palomo@hotmail.com',   'leader'),
+    ('Yeimi Piste',      'yeimypiste@gmail.com',       'member'),
+    ('Gael Perez',       'glape245@gmail.com',         'member'),
+    ('Ingrid Castillo',  'jazcastillo0609@gmail.com',  'member');
 
 -- Proyectos
-INSERT INTO projects (name, description, status, priority, start_date, due_date, owner_id) VALUES
+INSERT OR IGNORE INTO projects (name, description, status, priority, start_date, due_date, owner_id) VALUES
     ('Plataforma Web Equipo Yucateco',
      'Desarrollo de un gestor de proyectos colaborativo para el equipo.',
      'active', 'high', '2026-05-01', '2026-07-30', 1),
@@ -27,7 +28,7 @@ INSERT INTO projects (name, description, status, priority, start_date, due_date,
      'on_hold', 'critical', '2026-04-15', '2026-06-30', 1);
 
 -- Hitos
-INSERT INTO milestones (project_id, title, description, due_date, completed) VALUES
+INSERT OR IGNORE INTO milestones (project_id, title, description, due_date, completed) VALUES
     (1, 'Diseno de base de datos',   'Esquema SQL completo y datos de ejemplo listos.', '2026-06-20', 1),
     (1, 'Diseno de API',             'Endpoints documentados y funcionales.',            '2026-07-01', 0),
     (1, 'Interfaz de usuario v1',    'Formularios y vistas principales implementadas.',  '2026-07-15', 0),
@@ -35,7 +36,7 @@ INSERT INTO milestones (project_id, title, description, due_date, completed) VAL
     (3, 'Script de migracion listo', 'Script de Python para migrar datos legacy.',       '2026-06-28', 0);
 
 -- Tareas
-INSERT INTO tasks (project_id, milestone_id, title, description, status, priority, due_date, estimated_hours, created_by) VALUES
+INSERT OR IGNORE INTO tasks (project_id, milestone_id, title, description, status, priority, due_date, estimated_hours, created_by) VALUES
     (1, 1, 'Crear schema.sql',
      'Definir todas las tablas, relaciones e indices del gestor.',
      'done', 'high', '2026-06-19', 4.0, 2),
@@ -65,35 +66,36 @@ INSERT INTO tasks (project_id, milestone_id, title, description, status, priorit
      'todo', 'high', '2026-06-25', 3.0, 2);
 
 -- Miembros por proyecto
-INSERT INTO project_members (project_id, user_id, role_in_project) VALUES
+INSERT OR IGNORE INTO project_members (project_id, user_id, role_in_project) VALUES
     (1, 1, 'leader'),
     (1, 2, 'contributor'),
     (1, 3, 'contributor'),
-    (1, 4, 'viewer'),
+    (1, 4, 'contributor'),
+    (1, 5, 'viewer'),
     (2, 2, 'leader'),
-    (2, 4, 'contributor'),
+    (2, 3, 'contributor'),
     (3, 1, 'leader'),
-    (3, 5, 'contributor');
+    (3, 4, 'contributor');
 
 -- Asignaciones de tareas
-INSERT INTO task_assignments (task_id, user_id, assigned_by) VALUES
+INSERT OR IGNORE INTO task_assignments (task_id, user_id, assigned_by) VALUES
     (1, 2, 1),
     (2, 2, 1),
     (3, 3, 1),
     (4, 3, 1),
-    (5, 3, 1),
-    (6, 4, 2),
+    (5, 4, 1),
+    (6, 3, 2),
     (7, 5, 1);
 
 -- Comentarios
-INSERT INTO comments (task_id, author_id, body) VALUES
+INSERT OR IGNORE INTO comments (task_id, author_id, body) VALUES
     (1, 2, 'Schema terminado, incluye 9 tablas con indices y foreign keys.'),
     (1, 1, 'Revisado y aprobado. Buen trabajo.'),
     (3, 3, 'Empece con la ruta GET, necesito definir el formato de paginacion.'),
-    (6, 4, 'JWT implementado con expiracion de 24h, falta el refresh token.');
+    (6, 3, 'JWT implementado con expiracion de 24h, falta el refresh token.');
 
 -- Etiquetas
-INSERT INTO tags (name, color) VALUES
+INSERT OR IGNORE INTO tags (name, color) VALUES
     ('backend',    '#0d6efd'),
     ('frontend',   '#6f42c1'),
     ('base-datos', '#198754'),
@@ -101,13 +103,9 @@ INSERT INTO tags (name, color) VALUES
     ('revision',   '#fd7e14');
 
 -- Etiquetas en tareas
-INSERT INTO task_tags (task_id, tag_id) VALUES
-    (1, 3),
-    (2, 3),
-    (3, 1),
-    (4, 1),
+INSERT OR IGNORE INTO task_tags (task_id, tag_id) VALUES
+    (1, 3), (2, 3),
+    (3, 1), (4, 1),
     (5, 2),
-    (6, 1),
-    (6, 4),
-    (7, 3),
-    (7, 4);
+    (6, 1), (6, 4),
+    (7, 3), (7, 4);
