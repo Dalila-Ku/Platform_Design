@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platform_Design | Formularios de Proyecto</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --muted: #94a3b8;
+      --text: #f8fafc;
+      --primary: #2563eb;
+      --primary-soft: rgba(37, 99, 235, 0.15);
+      --border: #334155;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, #1e3a8a 0, #0f172a 38%, #020617 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 32px 7vw 20px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border: 1px solid rgba(147, 197, 253, 0.5);
+      border-radius: 999px;
+      color: #bfdbfe;
+      background: rgba(37, 99, 235, 0.14);
+      font-size: 0.86rem;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      max-width: 820px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(1180px, 92vw);
+      margin: 28px auto 56px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.86);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .card-header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    form {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text);
+      padding: 12px 13px;
+      font-size: 0.98rem;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.15);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      color: white;
+      background: var(--primary);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button.secondary { background: #475569; }
+    button.success { background: var(--success); }
+
+    .preview {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .preview-box {
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 180px;
+      overflow: auto;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #bae6fd;
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      font-size: 0.88rem;
+    }
+
+    .section-note {
+      padding: 18px 24px;
+      color: var(--muted);
+      background: rgba(37, 99, 235, 0.08);
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+      line-height: 1.5;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 26px;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    @media (max-width: 880px) {
+      .layout, .grid-2 { grid-template-columns: 1fr; }
+      header { padding-inline: 5vw; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="badge">Platform_Design · Frontend / Formularios</span>
+    <h1>Gestor de Proyectos</h1>
+    <p class="subtitle">
+      Interfaz estática para registrar proyectos y tareas. Los campos están alineados con el esquema de base de datos del equipo y con la idea de una API REST para crear proyectos y tareas.
+    </p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="card-header">
+        <h2>Configuración de API</h2>
+        <p>El formulario puede funcionar solo como maqueta visual. Si existe backend, se puede enviar la información al endpoint configurado.</p>
+      </div>
+      <form id="settingsForm">
+        <div class="grid-2">
+          <div class="field">
+            <label for="apiBase">Base URL</label>
+            <input id="apiBase" type="url" value="http://localhost:3000/api/v1" />
+            <span class="hint">Ejemplo: http://localhost:3000/api/v1</span>
+          </div>
+          <div class="field">
+            <label for="token">JWT Token opcional</label>
+            <input id="token" type="text" placeholder="Bearer token si aplica" />
+            <span class="hint">Se usará en Authorization si se llena.</span>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <div class="layout">
+      <section class="card">
+        <div class="card-header">
+          <h2>Crear proyecto</h2>
+          <p>Formulario basado en la tabla <strong>projects</strong>: nombre, descripción, estado, prioridad, fechas y dueño.</p>
+        </div>
+        <form id="projectForm">
+          <div class="field">
+            <label for="projectName">Nombre del proyecto *</label>
+            <input id="projectName" name="name" type="text" placeholder="Ej. Plataforma de gestión académica" required />
+          </div>
+
+          <div class="field">
+            <label for="projectDescription">Descripción</label>
+            <textarea id="projectDescription" name="description" placeholder="Describe el objetivo del proyecto"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="projectStatus">Estado</label>
+              <select id="projectStatus" name="status">
+                <option value="active">Activo</option>
+                <option value="on_hold">En pausa</option>
+                <option value="completed">Completado</option>
+                <option value="cancelled">Cancelado</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="projectPriority">Prioridad</label>
+              <select id="projectPriority" name="priority">
+                <option value="low">Baja</option>
+                <option value="medium" selected>Media</option>
+                <option value="high">Alta</option>
+                <option value="critical">Crítica</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="projectStart">Fecha de inicio</label>
+              <input id="projectStart" name="start_date" type="date" />
+            </div>
+            <div class="field">
+              <label for="projectDue">Fecha límite</label>
+              <input id="projectDue" name="due_date" type="date" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ownerId">ID del responsable *</label>
+            <input id="ownerId" name="owner_id" type="number" min="1" value="1" required />
+            <span class="hint">Corresponde a users.user_id en la base de datos.</span>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Generar JSON</button>
+            <button class="success" type="button" data-send="project">Enviar a API</button>
+            <button class="secondary" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Crear tarea</h2>
+          <p>Formulario basado en la tabla <strong>tasks</strong>. Permite registrar tareas ligadas a un proyecto, hito o subtarea.</p>
+        </div>
+        <form id="taskForm">
+          <div class="grid-2">
+            <div class="field">
+              <label for="taskProjectId">ID del proyecto *</label>
+              <input id="taskProjectId" name="project_id" type="number" min="1" value="1" required />
+            </div>
+            <div class="field">
+              <label for="taskCreatedBy">Creado por *</label>
+              <input id="taskCreatedBy" name="created_by" type="number" min="1" value="1" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="taskTitle">Título de la tarea *</label>
+            <input id="taskTitle" name="title" type="text" placeholder="Ej. Diseñar formulario de registro" required />
+          </div>
+
+          <div class="field">
+            <label for="taskDescription">Descripción</label>
+            <textarea id="taskDescription" name="description" placeholder="Explica qué se debe realizar"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="taskStatus">Estado</label>
+              <select id="taskStatus" name="status">
+                <option value="todo">Por hacer</option>
+                <option value="in_progress">En progreso</option>
+                <option value="in_review">En revisión</option>
+                <option value="done">Terminada</option>
+                <option value="cancelled">Cancelada</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="taskPriority">Prioridad</label>
+              <select id="taskPriority" name="priority">
+                <option value="low">Baja</option>
+                <option value="medium" selected>Media</option>
+                <option value="high">Alta</option>
+                <option value="critical">Crítica</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="taskDue">Fecha límite</label>
+              <input id="taskDue" name="due_date" type="date" />
+            </div>
+            <div class="field">
+              <label for="estimatedHours">Horas estimadas</label>
+              <input id="estimatedHours" name="estimated_hours" type="number" min="0" step="0.5" placeholder="Ej. 4" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="milestoneId">ID del hito opcional</label>
+              <input id="milestoneId" name="milestone_id" type="number" min="1" placeholder="Opcional" />
+            </div>
+            <div class="field">
+              <label for="parentTaskId">ID de tarea padre opcional</label>
+              <input id="parentTaskId" name="parent_task_id" type="number" min="1" placeholder="Opcional" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Generar JSON</button>
+            <button class="success" type="button" data-send="task">Enviar a API</button>
+            <button class="secondary" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>Vista previa del payload</h2>
+        <p>La información se muestra en formato JSON para validar que los datos están listos para el backend.</p>
+      </div>
+      <div class="preview">
+        <span class="status-pill" id="message">Listo para capturar datos</span>
+        <div class="preview-box">
+          <pre id="payloadPreview">{}</pre>
+        </div>
+      </div>
+      <div class="section-note">
+        Nota: este archivo no necesita servidor para abrirse. Para conectarlo a un backend real, la API debe aceptar las rutas <strong>POST /projects</strong> y <strong>POST /projects/:id/tasks</strong>.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Platform_Design · Equipo Yucateco Unido · Frontend por Gael
+  </footer>
+
+  <script>
+    const preview = document.getElementById('payloadPreview');
+    const message = document.getElementById('message');
+
+    function getValue(formData, key, type = 'text') {
+      const value = formData.get(key);
+      if (value === null || value === '') return null;
+      if (type === 'number') return Number(value);
+      return value;
+    }
+
+    function cleanPayload(payload) {
+      return Object.fromEntries(
+        Object.entries(payload).filter(([, value]) => value !== null && value !== '')
+      );
+    }
+
+    function buildProjectPayload() {
+      const data = new FormData(document.getElementById('projectForm'));
+      return cleanPayload({
+        name: getValue(data, 'name'),
+        description: getValue(data, 'description'),
+        status: getValue(data, 'status'),
+        priority: getValue(data, 'priority'),
+        start_date: getValue(data, 'start_date'),
+        due_date: getValue(data, 'due_date'),
+        owner_id: getValue(data, 'owner_id', 'number')
+      });
+    }
+
+    function buildTaskPayload() {
+      const data = new FormData(document.getElementById('taskForm'));
+      return cleanPayload({
+        project_id: getValue(data, 'project_id', 'number'),
+        milestone_id: getValue(data, 'milestone_id', 'number'),
+        parent_task_id: getValue(data, 'parent_task_id', 'number'),
+        title: getValue(data, 'title'),
+        description: getValue(data, 'description'),
+        status: getValue(data, 'status'),
+        priority: getValue(data, 'priority'),
+        due_date: getValue(data, 'due_date'),
+        estimated_hours: getValue(data, 'estimated_hours', 'number'),
+        created_by: getValue(data, 'created_by', 'number')
+      });
+    }
+
+    function showPayload(type, payload) {
+      preview.textContent = JSON.stringify({ type, payload }, null, 2);
+      message.textContent = `Payload generado: ${type}`;
+    }
+
+    document.getElementById('projectForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      showPayload('project', buildProjectPayload());
+    });
+
+    document.getElementById('taskForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      showPayload('task', buildTaskPayload());
+    });
+
+    document.querySelectorAll('[data-send]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const type = button.dataset.send;
+        const apiBase = document.getElementById('apiBase').value.replace(/\/$/, '');
+        const token = document.getElementById('token').value.trim();
+        const payload = type === 'project' ? buildProjectPayload() : buildTaskPayload();
+        const endpoint = type === 'project'
+          ? `${apiBase}/projects`
+          : `${apiBase}/projects/${payload.project_id}/tasks`;
+
+        showPayload(type, payload);
+        message.textContent = `Intentando enviar a ${endpoint}`;
+
+        try {
+          const headers = { 'Content-Type': 'application/json' };
+          if (token) headers.Authorization = `Bearer ${token}`;
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(payload)
+          });
+
+          const responseText = await response.text();
+          message.textContent = response.ok
+            ? 'Datos enviados correctamente'
+            : `La API respondió con error ${response.status}`;
+          preview.textContent = responseText || JSON.stringify({ status: response.status }, null, 2);
+        } catch (error) {
+          message.textContent = 'No se pudo conectar con la API. Se conserva la vista previa local.';
+          preview.textContent = JSON.stringify({ type, payload, error: error.message }, null, 2);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
