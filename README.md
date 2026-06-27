@@ -1,7 +1,6 @@
 # Platform_Design — Gestor de Proyectos
 
 Repositorio del **Equipo Yucateco Unido** — UPY, Octavo Cuatrimestre.
-
 Plataforma web colaborativa para gestión de proyectos: creación de proyectos, asignación de tareas, seguimiento de hitos y comunicación por comentarios.
 
 ---
@@ -79,6 +78,7 @@ users ──< project_members >── projects ──< milestones
 ## Cómo correr localmente
 
 ### Requisitos
+
 - Python 3.8+
 - SQLite (incluido en Python)
 - Navegador web moderno
@@ -93,7 +93,6 @@ cd Platform_Design
 ### 2. Crear la base de datos
 
 ```bash
-# Con Python (recomendado)
 python3 -c "
 import sqlite3
 conn = sqlite3.connect('platform.db')
@@ -134,6 +133,7 @@ Base URL: `http://localhost:3000/api/v1`
 Autenticación: JWT (`Authorization: Bearer <token>`)
 
 Endpoints principales:
+
 - `POST /auth/login` — Autenticación
 - `GET/POST /projects` — Proyectos
 - `GET/POST /projects/:id/tasks` — Tareas
@@ -157,3 +157,4 @@ El workflow en `.github/workflows/deploy.yml` valida automáticamente el schema 
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Generación de datos:** Python + Faker
 - **Control de versiones:** Git + GitHub
+
