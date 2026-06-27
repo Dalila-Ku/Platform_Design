@@ -1,75 +1,99 @@
-name: Validate & Deploy Platform_Design
+# ============================================================
+#  Platform_Design — GitHub Actions Workflow
+#  Trigger: push a main
+#  Acciones: valida el schema SQLite y verifica los archivos
+#            de datos, listos para revisión del profesor.
+# ============================================================
+
+name: Deploy Skeleton
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  validate-database:
+  validate-schema:
     name: Validate Database Schema
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      - name: Install SQLite
+        run: sudo apt-get install -y sqlite3
 
-      - name: Validate schema.sql
+      - name: Create database from schema
         run: |
-          python3 -c "
-          import sqlite3, sys
-          conn = sqlite3.connect(':memory:')
-          conn.execute('PRAGMA foreign_keys = ON')
-          try:
-              conn.executescript(open('db_files/esau/schema.sql').read())
-              conn.executescript(open('db_files/esau/sample_data.sql').read())
-              tables = conn.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()
-              print('Tables found:', [t[0] for t in tables])
-              users = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
-              print(f'Users in sample data: {users}')
-              print('Schema validation PASSED')
-          except Exception as e:
-              print(f'Schema validation FAILED: {e}')
-              sys.exit(1)
-          "
+          sqlite3 platform.db < db_files/esau/schema.sql
+          echo "Schema applied successfully"
 
-      - name: Check required files
+      - name: Load sample data
         run: |
-          echo "Checking required files..."
-          test -f README.md            && echo "README.md OK" || (echo "MISSING: README.md" && exit 1)
-          test -f db_files/esau/schema.sql      && echo "schema.sql OK"
-          test -f db_files/esau/sample_data.sql && echo "sample_data.sql OK"
-          test -f db_files/esau/data/users.csv  && echo "users.csv OK"
-          test -f db_files/esau/data/sample_data.json && echo "sample_data.json OK"
-          test -f db_files/yeimi/api_endpoints.md && echo "api_endpoints.md OK"
-          test -f db_files/gael/project_form.html && echo "project_form.html OK"
-          test -f db_files/dalila/generate_data.py && echo "generate_data.py OK"
-          echo "All required files present."
+          sqlite3 platform.db < db_files/esau/sample_data.sql
+          echo "Sample data loaded successfully"
 
-  generate-data:
-    name: Generate Sample Data
+      - name: Verify tables exist
+        run: |
+          sqlite3 platform.db ".tables"
+          echo "Table count:"
+          sqlite3 platform.db "SELECT COUNT(*) FROM sqlite_master WHERE type='table';"
+
+      - name: Verify task data (Assignment Submission Tracker)
+        run: |
+          echo "--- Tasks by priority ---"
+          sqlite3 platform.db "SELECT priority, COUNT(*) as total FROM tasks GROUP BY priority ORDER BY total DESC;"
+          echo "--- Tasks by difficulty ---"
+          sqlite3 platform.db "SELECT difficulty, COUNT(*) as total FROM tasks GROUP BY difficulty ORDER BY total DESC;"
+          echo "--- Tasks by status ---"
+          sqlite3 platform.db "SELECT status, COUNT(*) as total FROM tasks GROUP BY status ORDER BY total DESC;"
+
+  validate-data-files:
+    name: Validate Sample Data Files
     runs-on: ubuntu-latest
-    needs: validate-database
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      - name: Check CSV file exists and has content
+        run: |
+          if [ ! -f "db_files/dalila/data/tasks_sample.csv" ]; then
+            echo "ERROR: tasks_sample.csv not found"
+            exit 1
+          fi
+          LINES=$(wc -l < db_files/dalila/data/tasks_sample.csv)
+          echo "CSV lines: $LINES"
 
-      - name: Install dependencies
-        run: pip install faker
+      - name: Check JSON file is valid
+        run: |
+          if [ ! -f "db_files/dalila/data/tasks_sample.json" ]; then
+            echo "ERROR: tasks_sample.json not found"
+            exit 1
+          fi
+          python3 -c "import json; data=json.load(open('db_files/dalila/data/tasks_sample.json')); print(f'JSON valid — {len(data[\"tasks\"])} tasks')"
 
       - name: Run data generation script
         run: |
-          cd db_files/dalila
-          python generate_data.py
-          echo "Data generation completed."
-          cat generated_data.sql | head -20
+          pip install faker --quiet
+          cd db_files
+          python3 generate_data.py
+          echo "Data generation script OK"
+
+  summary:
+    name: Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [validate-schema, validate-data-files]
+
+    steps:
+      - name: Print summary
+        run: |
+          echo "============================================="
+          echo "  Platform_Design — Skeleton Verified"
+          echo "  Team: TeamX UPY 2026"
+          echo "  All checks passed — ready for review"
+          echo "============================================="
