@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Design — Assignment Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+  header { background: #1e293b; padding: 20px 32px; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; }
+  header span { font-size: 0.8rem; color: #64748b; margin-left: auto; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+  .card .num { font-size: 2rem; font-weight: 800; line-height: 1; }
+  .card .lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 6px; text-transform: uppercase; letter-spacing: .05em; }
+  .card.blue .num  { color: #60a5fa; }
+  .card.green .num { color: #34d399; }
+  .card.yellow .num{ color: #fbbf24; }
+  .card.red .num   { color: #f87171; }
+  .card.purple .num{ color: #a78bfa; }
+  .card.gray .num  { color: #94a3b8; }
+
+  /* Charts row */
+  .charts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .chart-box { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+  .chart-box h3 { font-size: 0.85rem; color: #94a3b8; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* Filters */
+  .filters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .filters select, .filters input {
+    background: #1e293b; border: 1px solid #334155; color: #e2e8f0;
+    padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; outline: none;
+  }
+  .filters input { flex: 1; min-width: 200px; }
+  .filters label { font-size: 0.8rem; color: #64748b; }
+
+  /* Table */
+  .table-wrap { background: #1e293b; border-radius: 12px; border: 1px solid #334155; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  thead { background: #0f172a; }
+  th { padding: 12px 14px; text-align: left; color: #64748b; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+  td { padding: 11px 14px; border-top: 1px solid #1e293b; color: #cbd5e1; }
+  tr:hover td { background: #0f172a44; }
+  .count { font-size: 0.75rem; color: #64748b; margin-bottom: 8px; }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+  .p-critical { background:#7f1d1d; color:#fca5a5; }
+  .p-high     { background:#78350f; color:#fcd34d; }
+  .p-medium   { background:#1e3a5f; color:#93c5fd; }
+  .p-low      { background:#1e293b; color:#94a3b8; border:1px solid #334155; }
+  .s-done        { background:#14532d; color:#86efac; }
+  .s-in_progress { background:#1e3a5f; color:#93c5fd; }
+  .s-in_review   { background:#3b1f6e; color:#c4b5fd; }
+  .s-todo        { background:#1e293b; color:#94a3b8; border:1px solid #334155; }
+  .s-cancelled   { background:#1c1917; color:#78716c; }
+  .d-very_hard{ color:#f87171; font-weight:700; }
+  .d-hard     { color:#fb923c; }
+  .d-medium   { color:#fbbf24; }
+  .d-easy     { color:#34d399; }
+
+  /* Research section */
+  .research { background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; margin-top: 28px; }
+  .research h2 { font-size: 1rem; font-weight: 700; margin-bottom: 18px; color: #f1f5f9; }
+  .research h3 { font-size: 0.85rem; color: #94a3b8; margin: 16px 0 10px; text-transform: uppercase; letter-spacing:.05em; }
+  .r-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .r-table th { padding: 8px 12px; text-align: left; color: #64748b; font-size: 0.75rem; border-bottom: 1px solid #334155; }
+  .r-table td { padding: 9px 12px; border-bottom: 1px solid #0f172a; }
+  .bar-wrap { background: #0f172a; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar { height: 100%; border-radius: 4px; background: #3b82f6; transition: width .4s; }
+</style>
+</head>
+<body>
+
+<header>
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+  <h1>Platform Design — Assignment Submission Tracker</h1>
+  <span>TeamX UPY 2026 · Esaú Palomo · P4</span>
+</header>
+
+<div class="container">
+
+  <!-- Cards -->
+  <div class="cards" id="cards"></div>
+
+  <!-- Charts -->
+  <div class="charts">
+    <div class="chart-box"><h3>Por prioridad</h3><canvas id="chartPriority"></canvas></div>
+    <div class="chart-box"><h3>Por estado</h3><canvas id="chartStatus"></canvas></div>
+    <div class="chart-box"><h3>Por dificultad</h3><canvas id="chartDifficulty"></canvas></div>
+  </div>
+
+  <!-- Task table -->
+  <div class="filters">
+    <label>Filtrar:</label>
+    <input type="text" id="search" placeholder="Buscar tarea...">
+    <select id="fPriority"><option value="">Prioridad</option><option>critical</option><option>high</option><option>medium</option><option>low</option></select>
+    <select id="fStatus"><option value="">Estado</option><option>done</option><option>in_progress</option><option>in_review</option><option>todo</option><option>cancelled</option></select>
+    <select id="fDifficulty"><option value="">Dificultad</option><option>very_hard</option><option>hard</option><option>medium</option><option>easy</option></select>
+  </div>
+  <p class="count" id="count"></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Tarea</th><th>Prioridad</th><th>Estado</th><th>Dificultad</th>
+        <th>Asignada</th><th>Inicio</th><th>Entrega</th><th>Completada</th>
+        <th>Días para iniciar</th><th>vs Deadline</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Research Q4 -->
+  <div class="research">
+    <h2>📊 Pregunta de Investigación #4</h2>
+    <p style="font-size:.85rem;color:#94a3b8;margin-bottom:16px;">
+      <em>¿Existe relación entre el número de tareas activas que tiene un estudiante y su porcentaje de entregas a tiempo?</em><br>
+      Indicador: Correlación de Pearson entre tareas activas y tasa de entrega a tiempo.
+    </p>
+    <h3>Resumen por estudiante</h3>
+    <table class="r-table">
+      <thead><tr><th>Estudiante</th><th>Total tareas</th><th>Tareas activas</th><th>Entregadas a tiempo</th><th>Tasa a tiempo</th><th></th></tr></thead>
+      <tbody id="rtbody"></tbody>
+    </table>
+    <p id="pearson" style="margin-top:14px;font-size:.85rem;color:#60a5fa;font-weight:600;"></p>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const TASKS = [
+  {id:1,title:"Diseñar esquema de base de datos",status:"done",priority:"critical",difficulty:"very_hard",assignment_date:"2026-05-01",start_date:"2026-05-02",due_date:"2026-05-15",completed_date:"2026-05-12",estimated_hours:20,actual_hours:18.5,assigned_to:"Esaú Palomo"},
+  {id:2,title:"Implementar autenticación JWT",status:"done",priority:"critical",difficulty:"hard",assignment_date:"2026-05-01",start_date:"2026-05-03",due_date:"2026-05-20",completed_date:"2026-05-17",estimated_hours:16,actual_hours:15,assigned_to:"Yeimi Piste"},
+  {id:3,title:"Diseñar endpoints REST de la API",status:"done",priority:"high",difficulty:"hard",assignment_date:"2026-05-05",start_date:"2026-05-06",due_date:"2026-05-22",completed_date:"2026-05-21",estimated_hours:12,actual_hours:13,assigned_to:"Yeimi Piste"},
+  {id:4,title:"Generar script de datos de prueba",status:"done",priority:"high",difficulty:"medium",assignment_date:"2026-05-05",start_date:"2026-05-09",due_date:"2026-05-25",completed_date:"2026-05-25",estimated_hours:8,actual_hours:9,assigned_to:"Dalila Ku"},
+  {id:5,title:"Configurar entorno de despliegue",status:"in_review",priority:"high",difficulty:"very_hard",assignment_date:"2026-05-10",start_date:"2026-05-11",due_date:"2026-06-10",completed_date:null,estimated_hours:24,actual_hours:20,assigned_to:"Esaú Palomo"},
+  {id:6,title:"Crear formularios HTML del frontend",status:"done",priority:"medium",difficulty:"medium",assignment_date:"2026-05-10",start_date:"2026-05-20",due_date:"2026-06-01",completed_date:"2026-06-02",estimated_hours:10,actual_hours:11,assigned_to:"Gael Pérez"},
+  {id:7,title:"Actualizar README con instrucciones",status:"done",priority:"medium",difficulty:"easy",assignment_date:"2026-05-15",start_date:"2026-05-28",due_date:"2026-06-01",completed_date:"2026-06-03",estimated_hours:3,actual_hours:2.5,assigned_to:"Ingrid Castillo"},
+  {id:8,title:"Agregar comentarios al código SQL",status:"done",priority:"low",difficulty:"easy",assignment_date:"2026-05-15",start_date:"2026-06-04",due_date:"2026-06-05",completed_date:"2026-06-05",estimated_hours:2,actual_hours:1.5,assigned_to:"Esaú Palomo"},
+  {id:9,title:"Pruebas de integración de la API",status:"in_progress",priority:"medium",difficulty:"hard",assignment_date:"2026-05-20",start_date:"2026-05-24",due_date:"2026-06-20",completed_date:null,estimated_hours:14,actual_hours:8,assigned_to:"Yeimi Piste"},
+  {id:10,title:"Documentar modelo entidad-relación",status:"todo",priority:"low",difficulty:"medium",assignment_date:"2026-05-25",start_date:null,due_date:"2026-06-25",completed_date:null,estimated_hours:6,actual_hours:null,assigned_to:"Ingrid Castillo"},
+  {id:11,title:"Corregir error en llave foránea de tasks",status:"done",priority:"critical",difficulty:"hard",assignment_date:"2026-06-01",start_date:"2026-06-02",due_date:"2026-06-05",completed_date:"2026-06-04",estimated_hours:4,actual_hours:3.5,assigned_to:"Esaú Palomo"},
+  {id:12,title:"Migrar datos a formato CSV y JSON",status:"done",priority:"high",difficulty:"very_hard",assignment_date:"2026-06-01",start_date:"2026-06-02",due_date:"2026-06-15",completed_date:"2026-06-13",estimated_hours:10,actual_hours:11,assigned_to:"Dalila Ku"},
+  {id:13,title:"Revisar ortografía en documentación",status:"done",priority:"low",difficulty:"easy",assignment_date:"2026-06-05",start_date:"2026-06-14",due_date:"2026-06-15",completed_date:"2026-06-16",estimated_hours:1.5,actual_hours:1,assigned_to:"Ingrid Castillo"},
+  {id:14,title:"Subir archivos de datos al repositorio",status:"done",priority:"medium",difficulty:"easy",assignment_date:"2026-06-10",start_date:"2026-06-12",due_date:"2026-06-19",completed_date:"2026-06-19",estimated_hours:2,actual_hours:1.5,assigned_to:"Gael Pérez"},
+  {id:15,title:"Optimizar consultas SQL con índices",status:"in_progress",priority:"high",difficulty:"hard",assignment_date:"2026-06-15",start_date:"2026-06-16",due_date:"2026-06-28",completed_date:null,estimated_hours:8,actual_hours:4,assigned_to:"Esaú Palomo"},
+  {id:16,title:"Implementar sistema de notificaciones",status:"todo",priority:"low",difficulty:"very_hard",assignment_date:"2026-06-15",start_date:null,due_date:"2026-07-10",completed_date:null,estimated_hours:30,actual_hours:null,assigned_to:"Yeimi Piste"},
+  {id:17,title:"Revisión final del skeleton antes de entrega",status:"done",priority:"critical",difficulty:"medium",assignment_date:"2026-06-18",start_date:"2026-06-18",due_date:"2026-06-19",completed_date:"2026-06-19",estimated_hours:5,actual_hours:4.5,assigned_to:"Dalila Ku"},
+  {id:18,title:"Diseñar flujo de autenticación de usuarios",status:"in_review",priority:"medium",difficulty:"hard",assignment_date:"2026-06-10",start_date:"2026-06-13",due_date:"2026-06-30",completed_date:null,estimated_hours:12,actual_hours:10,assigned_to:"Yeimi Piste"},
+  {id:19,title:"Crear presentación del avance al equipo",status:"todo",priority:"high",difficulty:"easy",assignment_date:"2026-06-20",start_date:null,due_date:"2026-06-26",completed_date:null,estimated_hours:3,actual_hours:null,assigned_to:"Gael Pérez"},
+  {id:20,title:"Configurar GitHub Actions para deploy automático",status:"in_progress",priority:"critical",difficulty:"very_hard",assignment_date:"2026-06-20",start_date:"2026-06-20",due_date:"2026-06-27",completed_date:null,estimated_hours:16,actual_hours:6,assigned_to:"Esaú Palomo"},
+];
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+const daysDiff = (a, b) => {
+  if (!a || !b) return null;
+  return Math.round((new Date(a) - new Date(b)) / 86400000);
+};
+const fmt = d => d ? d.slice(5) : '—';
+
+// ── CARDS ─────────────────────────────────────────────────────────────────────
+const stats = {
+  total:       TASKS.length,
+  done:        TASKS.filter(t=>t.status==='done').length,
+  in_progress: TASKS.filter(t=>t.status==='in_progress').length,
+  todo:        TASKS.filter(t=>t.status==='todo').length,
+  in_review:   TASKS.filter(t=>t.status==='in_review').length,
+  overdue:     TASKS.filter(t=>t.due_date && !t.completed_date && new Date(t.due_date)<new Date()).length,
+};
+document.getElementById('cards').innerHTML = `
+  <div class="card blue"><div class="num">${stats.total}</div><div class="lbl">Total tareas</div></div>
+  <div class="card green"><div class="num">${stats.done}</div><div class="lbl">Completadas</div></div>
+  <div class="card yellow"><div class="num">${stats.in_progress}</div><div class="lbl">En progreso</div></div>
+  <div class="card purple"><div class="num">${stats.in_review}</div><div class="lbl">En revisión</div></div>
+  <div class="card gray"><div class="num">${stats.todo}</div><div class="lbl">Pendientes</div></div>
+  <div class="card red"><div class="num">${stats.overdue}</div><div class="lbl">Vencidas</div></div>
+`;
+
+// ── CHARTS ────────────────────────────────────────────────────────────────────
+const chartOpts = { plugins:{ legend:{ labels:{ color:'#94a3b8', font:{size:11} } } } };
+const count = (arr, key) => arr.reduce((a,t)=>{ a[t[key]]=(a[t[key]]||0)+1; return a; },{});
+
+new Chart('chartPriority', { type:'doughnut', data:{ labels:['Critical','High','Medium','Low'],
+  datasets:[{ data: ['critical','high','medium','low'].map(p=>TASKS.filter(t=>t.priority===p).length),
+    backgroundColor:['#ef4444','#f59e0b','#3b82f6','#64748b'], borderWidth:0 }]
+}, options:chartOpts });
+
+new Chart('chartStatus', { type:'doughnut', data:{ labels:['Done','In Progress','In Review','Todo','Cancelled'],
+  datasets:[{ data: ['done','in_progress','in_review','todo','cancelled'].map(s=>TASKS.filter(t=>t.status===s).length),
+    backgroundColor:['#10b981','#3b82f6','#8b5cf6','#64748b','#374151'], borderWidth:0 }]
+}, options:chartOpts });
+
+new Chart('chartDifficulty', { type:'bar', data:{ labels:['Very Hard','Hard','Medium','Easy'],
+  datasets:[{ data: ['very_hard','hard','medium','easy'].map(d=>TASKS.filter(t=>t.difficulty===d).length),
+    backgroundColor:['#ef4444','#f97316','#fbbf24','#10b981'], borderRadius:6, borderWidth:0 }]
+}, options:{ ...chartOpts, plugins:{ legend:{ display:false } }, scales:{
+  x:{ ticks:{color:'#64748b'}, grid:{color:'#1e293b'} },
+  y:{ ticks:{color:'#64748b', stepSize:1}, grid:{color:'#334155'} }
+} } });
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function renderTable() {
+  const s = document.getElementById('search').value.toLowerCase();
+  const p = document.getElementById('fPriority').value;
+  const st = document.getElementById('fStatus').value;
+  const d = document.getElementById('fDifficulty').value;
+
+  const filtered = TASKS.filter(t =>
+    (!s  || t.title.toLowerCase().includes(s) || (t.assigned_to||'').toLowerCase().includes(s)) &&
+    (!p  || t.priority === p) &&
+    (!st || t.status === st) &&
+    (!d  || t.difficulty === d)
+  );
+
+  document.getElementById('count').textContent = `${filtered.length} de ${TASKS.length} tareas`;
+  document.getElementById('tbody').innerHTML = filtered.map(t => {
+    const dts = daysDiff(t.start_date, t.assignment_date);
+    const dvd = daysDiff(t.completed_date, t.due_date);
+    const dvdTxt = dvd===null ? '—' : dvd<=0 ? `<span style="color:#34d399">${dvd}d</span>` : `<span style="color:#f87171">+${dvd}d</span>`;
+    return `<tr>
+      <td style="color:#475569">${t.id}</td>
+      <td>${t.title}</td>
+      <td><span class="badge p-${t.priority}">${t.priority}</span></td>
+      <td><span class="badge s-${t.status}">${t.status.replace('_',' ')}</span></td>
+      <td class="d-${t.difficulty}">${t.difficulty.replace('_',' ')}</td>
+      <td>${fmt(t.assignment_date)}</td>
+      <td>${fmt(t.start_date)}</td>
+      <td>${fmt(t.due_date)}</td>
+      <td>${fmt(t.completed_date)}</td>
+      <td style="color:#94a3b8">${dts===null?'—':dts+'d'}</td>
+      <td>${dvdTxt}</td>
+    </tr>`;
+  }).join('');
+}
+
+['search','fPriority','fStatus','fDifficulty'].forEach(id =>
+  document.getElementById(id).addEventListener('input', renderTable)
+);
+renderTable();
+
+// ── RESEARCH P4 ───────────────────────────────────────────────────────────────
+const students = [...new Set(TASKS.map(t=>t.assigned_to).filter(Boolean))];
+const refDate = new Date('2026-06-10');
+
+const sData = students.map(name => {
+  const myTasks = TASKS.filter(t => t.assigned_to === name);
+  const active  = myTasks.filter(t => t.status !== 'done' && t.status !== 'cancelled').length;
+  const done    = myTasks.filter(t => t.status === 'done').length;
+  const onTime  = myTasks.filter(t => t.status === 'done' && t.completed_date && t.due_date && t.completed_date <= t.due_date).length;
+  const rate    = done ? Math.round(onTime/done*100) : 0;
+  return { name, total: myTasks.length, active, done, onTime, rate };
+}).sort((a,b) => b.active - a.active);
+
+document.getElementById('rtbody').innerHTML = sData.map(s => `<tr>
+  <td>${s.name}</td>
+  <td style="color:#60a5fa">${s.total}</td>
+  <td style="color:#fbbf24">${s.active}</td>
+  <td style="color:#34d399">${s.onTime}/${s.done}</td>
+  <td>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="bar-wrap" style="width:80px"><div class="bar" style="width:${s.rate}%"></div></div>
+      <span style="color:#60a5fa;font-weight:600">${s.rate}%</span>
+    </div>
+  </td>
+</tr>`).join('');
+
+// Pearson correlation
+const xs = sData.map(s=>s.active), ys = sData.map(s=>s.rate);
+const n = xs.length, mx = xs.reduce((a,b)=>a+b,0)/n, my = ys.reduce((a,b)=>a+b,0)/n;
+const num = xs.reduce((a,v,i)=>a+(v-mx)*(ys[i]-my),0);
+const den = Math.sqrt(xs.reduce((a,v)=>a+(v-mx)**2,0)*ys.reduce((a,v)=>a+(v-my)**2,0));
+const r = den ? (num/den).toFixed(3) : 'N/A';
+const interp = r > 0.5 ? 'correlación positiva moderada-fuerte' : r < -0.5 ? 'correlación negativa moderada-fuerte' : 'correlación débil o nula';
+document.getElementById('pearson').textContent = `Correlación de Pearson (r): ${r} — ${interp} entre tareas activas y tasa de entrega a tiempo.`;
+</script>
+</body>
+</html>
