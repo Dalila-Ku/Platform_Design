@@ -1,0 +1,12 @@
+{
+  "total_tasks": 20,
+  "completed_tasks": 8,
+  "completion_rate": 0.4,
+  "active_assignments_mean": 0.6,
+  "active_assignments_max": 1,
+  "active_assignments_min": 0,
+  "pearson_r": -1.0,
+  "pearson_n": 5,
+  "pearson_interpretation": "Correlación negativa muy fuerte (r = -1.0000)",
+  "generated_at": "20260702_190535"
+}

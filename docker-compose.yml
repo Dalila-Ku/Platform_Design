@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./platform.db:/app/platform.db
+      - ./db_files:/app/db_files
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
