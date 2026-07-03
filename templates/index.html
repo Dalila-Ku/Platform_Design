@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platform Design — Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+header{background:#1e293b;padding:16px 28px;border-bottom:1px solid #334155;display:flex;align-items:center;gap:12px}
+header h1{font-size:1.1rem;font-weight:700;color:#f1f5f9}
+header span{font-size:.75rem;color:#64748b;margin-left:auto}
+.container{max-width:1400px;margin:0 auto;padding:22px 28px}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
+.card{background:#1e293b;border-radius:10px;padding:18px;border:1px solid #334155}
+.card .num{font-size:1.9rem;font-weight:800;line-height:1}
+.card .lbl{font-size:.72rem;color:#94a3b8;margin-top:5px;text-transform:uppercase;letter-spacing:.05em}
+.blue .num{color:#60a5fa}.green .num{color:#34d399}.yellow .num{color:#fbbf24}
+.red .num{color:#f87171}.purple .num{color:#a78bfa}.gray .num{color:#94a3b8}
+
+/* Charts */
+.charts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px}
+.chart-box{background:#1e293b;border-radius:10px;padding:18px;border:1px solid #334155}
+.chart-box h3{font-size:.75rem;color:#94a3b8;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
+
+/* Toolbar */
+.toolbar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{background:#1e293b;border:1px solid #334155;color:#e2e8f0;
+  padding:8px 12px;border-radius:8px;font-size:.82rem;outline:none}
+.toolbar input{flex:1;min-width:180px}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:.82rem;font-weight:600;transition:.15s}
+.btn-primary{background:#3b82f6;color:#fff}.btn-primary:hover{background:#2563eb}
+.btn-success{background:#10b981;color:#fff}.btn-success:hover{background:#059669}
+.btn-outline{background:transparent;color:#94a3b8;border:1px solid #334155}.btn-outline:hover{border-color:#60a5fa;color:#60a5fa}
+.btn-sm{padding:4px 10px;font-size:.75rem}
+.btn-danger{background:#ef4444;color:#fff}.btn-danger:hover{background:#dc2626}
+
+/* Table */
+.count{font-size:.75rem;color:#64748b;margin-bottom:8px}
+.table-wrap{background:#1e293b;border-radius:10px;border:1px solid #334155;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead{background:#0f172a}
+th{padding:11px 13px;text-align:left;color:#64748b;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+td{padding:10px 13px;border-top:1px solid #0f172a22;color:#cbd5e1;white-space:nowrap}
+tr:hover td{background:#ffffff08}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:600}
+.p-critical{background:#7f1d1d;color:#fca5a5}.p-high{background:#78350f;color:#fcd34d}
+.p-medium{background:#1e3a5f;color:#93c5fd}.p-low{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.s-done{background:#14532d;color:#86efac}.s-in_progress{background:#1e3a5f;color:#93c5fd}
+.s-in_review{background:#3b1f6e;color:#c4b5fd}.s-todo{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.s-cancelled{background:#1c1917;color:#78716c}
+.d-very_hard{color:#f87171;font-weight:700}.d-hard{color:#fb923c}.d-medium{color:#fbbf24}.d-easy{color:#34d399}
+
+/* Modal */
+.overlay{display:none;position:fixed;inset:0;background:#00000088;z-index:100;align-items:center;justify-content:center;overflow-y:auto;padding:20px}
+.overlay.open{display:flex}
+.modal{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.modal h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#f1f5f9}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.75rem;color:#94a3b8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select,.field textarea{
+  width:100%;background:#0f172a;border:1px solid #334155;color:#e2e8f0;
+  padding:9px 12px;border-radius:8px;font-size:.85rem;outline:none;font-family:inherit}
+.field input:focus,.field select:focus{border-color:#3b82f6}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+/* Status buttons */
+.status-btns{display:flex;gap:4px;flex-wrap:wrap}
+
+/* Research */
+.research{background:#1e293b;border-radius:10px;padding:22px;border:1px solid #334155;margin-top:24px}
+.research h2{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.research p.sub{font-size:.8rem;color:#64748b;margin-bottom:16px}
+.r-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.r-table th{padding:8px 12px;text-align:left;color:#64748b;font-size:.72rem;border-bottom:1px solid #334155}
+.r-table td{padding:9px 12px;border-bottom:1px solid #0f172a}
+.bar-wrap{background:#0f172a;border-radius:4px;height:7px;overflow:hidden;width:80px;display:inline-block}
+.bar{height:100%;border-radius:4px;background:#3b82f6}
+.pearson{margin-top:14px;font-size:.83rem;color:#60a5fa;font-weight:600;padding:10px 14px;background:#0f172a;border-radius:8px}
+
+/* Export row */
+.export-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.section-title{font-size:.8rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+  <h1>Platform Design — Assignment Submission Tracker</h1>
+  <span>TeamX UPY 2026 · Esaú Palomo · P4</span>
+</header>
+
+<div class="container">
+
+  <!-- Cards -->
+  <div class="cards" id="cards"></div>
+
+  <!-- Charts -->
+  <div class="charts">
+    <div class="chart-box"><h3>Por prioridad</h3><canvas id="cPriority"></canvas></div>
+    <div class="chart-box"><h3>Por estado</h3><canvas id="cStatus"></canvas></div>
+    <div class="chart-box"><h3>Por dificultad</h3><canvas id="cDifficulty"></canvas></div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Buscar tarea o responsable...">
+    <select id="fP"><option value="">Prioridad</option><option>critical</option><option>high</option><option>medium</option><option>low</option></select>
+    <select id="fS"><option value="">Estado</option><option>done</option><option>in_progress</option><option>in_review</option><option>todo</option><option>cancelled</option></select>
+    <select id="fD"><option value="">Dificultad</option><option>very_hard</option><option>hard</option><option>medium</option><option>easy</option></select>
+    <button class="btn btn-primary" onclick="openModal()">+ Nueva tarea</button>
+  </div>
+  <p class="count" id="count"></p>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Tarea</th><th>Asignado a</th><th>Prioridad</th><th>Estado</th>
+        <th>Dificultad</th><th>Asignada</th><th>Inicio</th><th>Entrega</th>
+        <th>Completada</th><th>Días inicio</th><th>vs Deadline</th><th>Acciones</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Research -->
+  <div class="research">
+    <h2>📊 Investigación P4</h2>
+    <p class="sub">¿Existe relación entre el número de tareas activas de un estudiante y su porcentaje de entregas a tiempo?<br>
+    Indicador: Correlación de Pearson (tareas activas × tasa de entrega a tiempo)</p>
+    <table class="r-table">
+      <thead><tr><th>Estudiante</th><th>Total</th><th>Activas</th><th>A tiempo / completadas</th><th>Tasa a tiempo</th></tr></thead>
+      <tbody id="rtbody"></tbody>
+    </table>
+    <p class="pearson" id="pearson"></p>
+  </div>
+</div>
+
+<!-- Modal nueva tarea -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Nueva tarea</h2>
+    <div class="field"><label>Título *</label><input id="mTitle" placeholder="Descripción de la tarea"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Prioridad</label>
+        <select id="mPriority"><option value="critical">Critical</option><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
+      </div>
+      <div class="field"><label>Dificultad</label>
+        <select id="mDifficulty"><option value="very_hard">Very Hard</option><option value="hard">Hard</option><option value="medium" selected>Medium</option><option value="easy">Easy</option></select>
+      </div>
+      <div class="field"><label>Fecha de entrega</label><input type="date" id="mDue"></div>
+      <div class="field"><label>Horas estimadas</label><input type="number" id="mHours" min="0.5" step="0.5" placeholder="ej. 8"></div>
+    </div>
+    <div class="field"><label>Asignar a</label>
+      <select id="mUser"><option value="">Sin asignar</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="createTask()">Crear tarea</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar tarea -->
+<div class="overlay" id="editOverlay">
+  <div class="modal">
+    <h2>✏️ Editar tarea</h2>
+    <input type="hidden" id="eId">
+    <div class="field"><label>Título *</label><input id="eTitle" placeholder="Descripción de la tarea"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Prioridad</label>
+        <select id="ePriority">
+          <option value="critical">Critical</option><option value="high">High</option>
+          <option value="medium">Medium</option><option value="low">Low</option>
+        </select>
+      </div>
+      <div class="field"><label>Dificultad</label>
+        <select id="eDifficulty">
+          <option value="very_hard">Very Hard</option><option value="hard">Hard</option>
+          <option value="medium">Medium</option><option value="easy">Easy</option>
+        </select>
+      </div>
+      <div class="field"><label>Estado</label>
+        <select id="eStatus">
+          <option value="todo">Todo</option><option value="in_progress">In Progress</option>
+          <option value="in_review">In Review</option><option value="done">Done</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div class="field"><label>Asignar a</label>
+        <select id="eUser"><option value="">Sin asignar</option></select>
+      </div>
+      <div class="field"><label>Fecha asignación</label><input type="date" id="eAssigned"></div>
+      <div class="field"><label>Fecha inicio</label><input type="date" id="eStart"></div>
+      <div class="field"><label>Fecha entrega</label><input type="date" id="eDue"></div>
+      <div class="field"><label>Fecha completada</label><input type="date" id="eCompleted"></div>
+      <div class="field"><label>Horas estimadas</label><input type="number" id="eHoursEst" min="0.5" step="0.5"></div>
+      <div class="field"><label>Horas reales</label><input type="number" id="eHoursAct" min="0.5" step="0.5"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEditModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let TASKS=[], USERS=[], charts={};
+
+// ── Fetch ──────────────────────────────────────────────────────────────────────
+async function load(){
+  const [s,t,u,r] = await Promise.all([
+    fetch('/api/stats').then(r=>r.json()),
+    fetch('/api/tasks').then(r=>r.json()),
+    fetch('/api/users').then(r=>r.json()),
+    fetch('/api/research').then(r=>r.json()),
+  ]);
+  TASKS=t; USERS=u;
+  renderCards(s);
+  renderCharts(s);
+  renderTable();
+  renderUsers();
+  renderResearch(r);
+}
+
+// ── Cards ─────────────────────────────────────────────────────────────────────
+function renderCards(s){
+  document.getElementById('cards').innerHTML=`
+    <div class="card blue"><div class="num">${s.total}</div><div class="lbl">Total</div></div>
+    <div class="card green"><div class="num">${s.done}</div><div class="lbl">Completadas</div></div>
+    <div class="card yellow"><div class="num">${s.in_progress}</div><div class="lbl">En progreso</div></div>
+    <div class="card purple"><div class="num">${s.in_review}</div><div class="lbl">En revisión</div></div>
+    <div class="card gray"><div class="num">${s.todo}</div><div class="lbl">Pendientes</div></div>
+    <div class="card red"><div class="num">${s.overdue}</div><div class="lbl">Vencidas</div></div>`;
+}
+
+// ── Charts ────────────────────────────────────────────────────────────────────
+function renderCharts(s){
+  const opts={plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}}};
+  const pick=(arr,keys)=>keys.map(k=>(arr.find(r=>r.priority===k||r.status===k||r.difficulty===k)||{n:0}).n);
+  if(charts.p) charts.p.destroy();
+  if(charts.s) charts.s.destroy();
+  if(charts.d) charts.d.destroy();
+  charts.p=new Chart('cPriority',{type:'doughnut',data:{labels:['Critical','High','Medium','Low'],datasets:[{data:pick(s.by_priority,['critical','high','medium','low']),backgroundColor:['#ef4444','#f59e0b','#3b82f6','#64748b'],borderWidth:0}]},options:opts});
+  charts.s=new Chart('cStatus',{type:'doughnut',data:{labels:['Done','In Progress','In Review','Todo'],datasets:[{data:pick(s.by_status,['done','in_progress','in_review','todo']),backgroundColor:['#10b981','#3b82f6','#8b5cf6','#64748b'],borderWidth:0}]},options:opts});
+  charts.d=new Chart('cDifficulty',{type:'bar',data:{labels:['Very Hard','Hard','Medium','Easy'],datasets:[{data:pick(s.by_difficulty,['very_hard','hard','medium','easy']),backgroundColor:['#ef4444','#f97316','#fbbf24','#10b981'],borderRadius:6,borderWidth:0}]},options:{...opts,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'#1e293b'}},y:{ticks:{color:'#64748b',stepSize:1},grid:{color:'#334155'}}}}});
+}
+
+// ── Table ─────────────────────────────────────────────────────────────────────
+const fmt=d=>d?d.slice(5):'—';
+const daysDiff=(a,b)=>(!a||!b)?null:Math.round((new Date(a)-new Date(b))/86400000);
+
+function renderTable(){
+  const s=document.getElementById('search').value.toLowerCase();
+  const p=document.getElementById('fP').value;
+  const st=document.getElementById('fS').value;
+  const d=document.getElementById('fD').value;
+  const filtered=TASKS.filter(t=>
+    (!s||t.title.toLowerCase().includes(s)||(t.assigned_to||'').toLowerCase().includes(s))&&
+    (!p||t.priority===p)&&(!st||t.status===st)&&(!d||t.difficulty===d));
+  document.getElementById('count').textContent=`${filtered.length} de ${TASKS.length} tareas`;
+
+  const statusOpts=['todo','in_progress','in_review','done','cancelled']
+    .map(s=>`<option value="${s}">${s.replace('_',' ')}</option>`).join('');
+
+  document.getElementById('tbody').innerHTML=filtered.map(t=>{
+    const dts=daysDiff(t.start_date,t.assignment_date);
+    const dvd=daysDiff(t.completed_date,t.due_date);
+    const dvdTxt=dvd===null?'—':dvd<=0?`<span style="color:#34d399">${dvd}d</span>`:`<span style="color:#f87171">+${dvd}d</span>`;
+    return `<tr>
+      <td style="color:#475569">${t.id}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${t.title}">${t.title}</td>
+      <td style="color:#94a3b8">${t.assigned_to||'—'}</td>
+      <td><span class="badge p-${t.priority}">${t.priority}</span></td>
+      <td>
+        <select class="badge s-${t.status}" onchange="updateStatus(${t.id},this.value)" style="background:transparent;border:none;cursor:pointer;color:inherit;font-weight:600;font-size:.7rem">
+          ${statusOpts.replace(`value="${t.status}"`,`value="${t.status}" selected`)}
+        </select>
+      </td>
+      <td class="d-${t.difficulty}">${t.difficulty.replace('_',' ')}</td>
+      <td>${fmt(t.assignment_date)}</td><td>${fmt(t.start_date)}</td>
+      <td>${fmt(t.due_date)}</td><td>${fmt(t.completed_date)}</td>
+      <td style="color:#94a3b8">${dts===null?'—':dts+'d'}</td>
+      <td>${dvdTxt}</td>
+      <td style="display:flex;gap:4px">
+        <button class="btn btn-outline btn-sm" onclick="openEdit(${t.id})" title="Editar">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTask(${t.id})" title="Eliminar">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+['search','fP','fS','fD'].forEach(id=>document.getElementById(id).addEventListener('input',renderTable));
+
+// ── Users dropdown ─────────────────────────────────────────────────────────────
+function renderUsers(){
+  document.getElementById('mUser').innerHTML=
+    '<option value="">Sin asignar</option>'+
+    USERS.map(u=>`<option value="${u.id}">${u.full_name}</option>`).join('');
+}
+
+// ── CRUD ──────────────────────────────────────────────────────────────────────
+function openModal(){ document.getElementById('overlay').classList.add('open') }
+function closeModal(){ document.getElementById('overlay').classList.remove('open') }
+document.getElementById('overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal() });
+
+async function createTask(){
+  const title=document.getElementById('mTitle').value.trim();
+  if(!title){ alert('El título es requerido'); return; }
+  await fetch('/api/tasks',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      title, priority:document.getElementById('mPriority').value,
+      difficulty:document.getElementById('mDifficulty').value,
+      due_date:document.getElementById('mDue').value||null,
+      estimated_hours:parseFloat(document.getElementById('mHours').value)||null,
+      user_id:document.getElementById('mUser').value||null,
+    })
+  });
+  closeModal();
+  document.getElementById('mTitle').value='';
+  load();
+}
+
+async function updateStatus(id,status){
+  await fetch(`/api/tasks/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({status})});
+  load();
+}
+
+async function deleteTask(id){
+  if(!confirm('¿Eliminar esta tarea?')) return;
+  await fetch(`/api/tasks/${id}`,{method:'DELETE'});
+  load();
+}
+
+// ── Edit modal ────────────────────────────────────────────────────────────────
+function openEdit(id){
+  const t=TASKS.find(x=>x.id===id); if(!t) return;
+  document.getElementById('eId').value=t.id;
+  document.getElementById('eTitle').value=t.title||'';
+  document.getElementById('ePriority').value=t.priority||'medium';
+  document.getElementById('eDifficulty').value=t.difficulty||'medium';
+  document.getElementById('eStatus').value=t.status||'todo';
+  document.getElementById('eAssigned').value=t.assignment_date||'';
+  document.getElementById('eStart').value=t.start_date||'';
+  document.getElementById('eDue').value=t.due_date||'';
+  document.getElementById('eCompleted').value=t.completed_date||'';
+  document.getElementById('eHoursEst').value=t.estimated_hours||'';
+  document.getElementById('eHoursAct').value=t.actual_hours||'';
+  // Fill user select and set current
+  document.getElementById('eUser').innerHTML=
+    '<option value="">Sin asignar</option>'+
+    USERS.map(u=>`<option value="${u.id}"${u.id==t.user_id?' selected':''}>${u.full_name}</option>`).join('');
+  document.getElementById('editOverlay').classList.add('open');
+}
+
+function closeEditModal(){
+  document.getElementById('editOverlay').classList.remove('open');
+}
+document.getElementById('editOverlay').addEventListener('click',e=>{
+  if(e.target===e.currentTarget) closeEditModal();
+});
+
+async function saveEdit(){
+  const id=document.getElementById('eId').value;
+  const body={
+    title:       document.getElementById('eTitle').value.trim(),
+    priority:    document.getElementById('ePriority').value,
+    difficulty:  document.getElementById('eDifficulty').value,
+    status:      document.getElementById('eStatus').value,
+    assignment_date: document.getElementById('eAssigned').value||null,
+    start_date:      document.getElementById('eStart').value||null,
+    due_date:        document.getElementById('eDue').value||null,
+    completed_date:  document.getElementById('eCompleted').value||null,
+    estimated_hours: parseFloat(document.getElementById('eHoursEst').value)||null,
+    actual_hours:    parseFloat(document.getElementById('eHoursAct').value)||null,
+    user_id:         document.getElementById('eUser').value||null,
+  };
+  if(!body.title){ alert('El título es requerido'); return; }
+  await fetch(`/api/tasks/${id}`,{method:'PATCH',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  closeEditModal();
+  load();
+}
+
+// ── Research ──────────────────────────────────────────────────────────────────
+function renderResearch(data){
+  document.getElementById('rtbody').innerHTML=data.map(d=>`<tr>
+    <td>${d.full_name}</td>
+    <td style="color:#60a5fa">${d.total}</td>
+    <td style="color:#fbbf24">${d.active}</td>
+    <td style="color:#34d399">${d.on_time}/${d.done_count}</td>
+    <td><div class="bar-wrap"><div class="bar" style="width:${d.rate}%"></div></div>
+        <span style="color:#60a5fa;font-weight:600;margin-left:8px">${d.rate}%</span></td>
+  </tr>`).join('');
+
+  const xs=data.map(d=>d.active), ys=data.map(d=>d.rate), n=xs.length;
+  if(n<2){ document.getElementById('pearson').textContent='Se necesitan más datos para calcular la correlación.'; return; }
+  const mx=xs.reduce((a,b)=>a+b,0)/n, my=ys.reduce((a,b)=>a+b,0)/n;
+  const num=xs.reduce((a,v,i)=>a+(v-mx)*(ys[i]-my),0);
+  const den=Math.sqrt(xs.reduce((a,v)=>a+(v-mx)**2,0)*ys.reduce((a,v)=>a+(v-my)**2,0));
+  const r=den?(num/den).toFixed(3):0;
+  const interp=r>0.5?'correlación positiva moderada-fuerte':r<-0.5?'correlación negativa moderada-fuerte':'correlación débil o nula';
+  document.getElementById('pearson').textContent=`Pearson r = ${r} — ${interp} entre tareas activas y tasa de entrega a tiempo.`;
+}
+
+load();
+</script>
+</body>
+</html>
