@@ -1,11 +1,10 @@
 # ============================================================
-#  Platform_Design — GitHub Actions Workflow
-#  Trigger: push a main
-#  Acciones: valida el schema SQLite y verifica los archivos
-#            de datos, listos para revisión del profesor.
+# Platform_Design — GitHub Actions Workflow
+# Trigger: push or pull request to main
+# Purpose: validate database, required files, data sources, and scripts
 # ============================================================
 
-name: Deploy Skeleton
+name: Validate Platform Skeleton
 
 on:
   push:
@@ -17,7 +16,7 @@ on:
 
 jobs:
   validate-schema:
-    name: Validate Database Schema
+    name: Validate SQLite Database Schema
     runs-on: ubuntu-latest
 
     steps:
@@ -25,75 +24,137 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install SQLite
-        run: sudo apt-get install -y sqlite3
+        run: sudo apt-get update && sudo apt-get install -y sqlite3
 
       - name: Create database from schema
         run: |
           sqlite3 platform.db < db_files/esau/schema.sql
-          echo "Schema applied successfully"
+          echo "[OK] Schema applied successfully."
 
       - name: Load sample data
         run: |
           sqlite3 platform.db < db_files/esau/sample_data.sql
-          echo "Sample data loaded successfully"
+          echo "[OK] Sample data loaded successfully."
 
       - name: Verify tables exist
         run: |
+          echo "[INFO] Tables found:"
           sqlite3 platform.db ".tables"
-          echo "Table count:"
-          sqlite3 platform.db "SELECT COUNT(*) FROM sqlite_master WHERE type='table';"
 
-      - name: Verify task data (Assignment Submission Tracker)
+          TABLE_COUNT=$(sqlite3 platform.db "SELECT COUNT(*) FROM sqlite_master WHERE type='table';")
+          echo "[INFO] Table count: $TABLE_COUNT"
+
+          if [ "$TABLE_COUNT" -lt 9 ]; then
+            echo "[ERROR] Expected at least 9 tables."
+            exit 1
+          fi
+
+      - name: Verify task data
         run: |
-          echo "--- Tasks by priority ---"
-          sqlite3 platform.db "SELECT priority, COUNT(*) as total FROM tasks GROUP BY priority ORDER BY total DESC;"
-          echo "--- Tasks by difficulty ---"
-          sqlite3 platform.db "SELECT difficulty, COUNT(*) as total FROM tasks GROUP BY difficulty ORDER BY total DESC;"
-          echo "--- Tasks by status ---"
-          sqlite3 platform.db "SELECT status, COUNT(*) as total FROM tasks GROUP BY status ORDER BY total DESC;"
+          echo "[INFO] Tasks by priority:"
+          sqlite3 platform.db "SELECT priority, COUNT(*) AS total FROM tasks GROUP BY priority ORDER BY total DESC;"
 
-  validate-data-files:
-    name: Validate Sample Data Files
+          echo "[INFO] Tasks by difficulty:"
+          sqlite3 platform.db "SELECT difficulty, COUNT(*) AS total FROM tasks GROUP BY difficulty ORDER BY total DESC;"
+
+          echo "[INFO] Tasks by status:"
+          sqlite3 platform.db "SELECT status, COUNT(*) AS total FROM tasks GROUP BY status ORDER BY total DESC;"
+
+  validate-required-files:
+    name: Validate Required Repository Files
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check CSV file exists and has content
+      - name: Check core files
         run: |
-          if [ ! -f "db_files/dalila/data/tasks_sample.csv" ]; then
-            echo "ERROR: tasks_sample.csv not found"
-            exit 1
-          fi
-          LINES=$(wc -l < db_files/dalila/data/tasks_sample.csv)
-          echo "CSV lines: $LINES"
+          echo "[INFO] Checking required files..."
 
-      - name: Check JSON file is valid
+          test -f README.md || (echo "[ERROR] README.md not found" && exit 1)
+          test -f documentation.md || (echo "[WARNING] documentation.md not found, continuing because README.md is the main requirement")
+
+          test -f db_files/esau/schema.sql || (echo "[ERROR] db_files/esau/schema.sql not found" && exit 1)
+          test -f db_files/esau/sample_data.sql || (echo "[ERROR] db_files/esau/sample_data.sql not found" && exit 1)
+
+          test -f db_files/esau/data/users.csv || (echo "[ERROR] db_files/esau/data/users.csv not found" && exit 1)
+          test -f db_files/esau/data/projects.csv || (echo "[ERROR] db_files/esau/data/projects.csv not found" && exit 1)
+          test -f db_files/esau/data/tasks.csv || (echo "[ERROR] db_files/esau/data/tasks.csv not found" && exit 1)
+          test -f db_files/esau/data/sample_data.json || (echo "[ERROR] db_files/esau/data/sample_data.json not found" && exit 1)
+
+          test -f db_files/dalila/data/tasks_sample.csv || (echo "[ERROR] db_files/dalila/data/tasks_sample.csv not found" && exit 1)
+          test -f db_files/dalila/data/tasks_sample.json || (echo "[ERROR] db_files/dalila/data/tasks_sample.json not found" && exit 1)
+
+          test -f db_files/yeimy/api_endpoints.md || (echo "[ERROR] db_files/yeimy/api_endpoints.md not found" && exit 1)
+          test -f db_files/gael/project_form.html || (echo "[ERROR] db_files/gael/project_form.html not found" && exit 1)
+          test -f db_files/generate_data.py || (echo "[ERROR] db_files/generate_data.py not found" && exit 1)
+
+          echo "[OK] All required files were found."
+
+      - name: Validate JSON file
         run: |
-          if [ ! -f "db_files/dalila/data/tasks_sample.json" ]; then
-            echo "ERROR: tasks_sample.json not found"
-            exit 1
-          fi
-          python3 -c "import json; data=json.load(open('db_files/dalila/data/tasks_sample.json')); print(f'JSON valid — {len(data[\"tasks\"])} tasks')"
+          python3 - <<'PY'
+          import json
+
+          with open("db_files/dalila/data/tasks_sample.json", encoding="utf-8") as f:
+              data = json.load(f)
+
+          if "tasks" not in data:
+              raise ValueError("tasks_sample.json must contain a 'tasks' key.")
+
+          print(f"[OK] JSON valid — {len(data['tasks'])} task records found.")
+          PY
+
+      - name: Validate CSV files
+        run: |
+          python3 - <<'PY'
+          import pandas as pd
+
+          files = [
+              "db_files/esau/data/users.csv",
+              "db_files/esau/data/projects.csv",
+              "db_files/esau/data/tasks.csv",
+              "db_files/dalila/data/tasks_sample.csv",
+          ]
+
+          for path in files:
+              df = pd.read_csv(path)
+              print(f"[OK] {path}: {len(df)} rows, {len(df.columns)} columns")
+              if df.empty:
+                  raise ValueError(f"{path} is empty.")
+          PY
+
+  validate-data-generation:
+    name: Validate Data Generation Script
+    runs-on: ubuntu-latest
+    needs: [validate-schema, validate-required-files]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        run: pip install faker --quiet
 
       - name: Run data generation script
         run: |
-          pip install faker --quiet
           cd db_files
           python3 generate_data.py
-          echo "Data generation script OK"
+          test -f generated_data.sql || (echo "[ERROR] generated_data.sql was not generated" && exit 1)
+          echo "[OK] Data generation script executed successfully."
+          head -20 generated_data.sql
 
   summary:
-    name: Deployment Summary
+    name: Validation Summary
     runs-on: ubuntu-latest
-    needs: [validate-schema, validate-data-files]
+    needs: [validate-schema, validate-required-files, validate-data-generation]
 
     steps:
       - name: Print summary
         run: |
           echo "============================================="
-          echo "  Platform_Design — Skeleton Verified"
-          echo "  Team: TeamX UPY 2026"
-          echo "  All checks passed — ready for review"
+          echo " Platform_Design — Skeleton Verified"
+          echo " Database, data files, API docs, frontend,"
+          echo " and generation script are ready for review."
           echo "============================================="
