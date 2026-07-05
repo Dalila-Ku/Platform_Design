@@ -1,0 +1,11 @@
+[
+  {
+    "research_question":"Do students who start working on assignments within 24 hours of receiving them have a higher on-time submission rate than students who start later?",
+    "indicator":"Mean on-time submission rate compared between early-start and late-start groups.",
+    "early_start_rate":0.7407,
+    "late_start_rate":0.4087,
+    "difference_early_minus_late":0.332,
+    "total_assignments":250,
+    "interpretation":"Early-start students show a higher on-time submission rate."
+  }
+]

@@ -1,0 +1,57 @@
+======================================================================
+PROJECT #08 — GAEL ETL FINAL PIPELINE
+======================================================================
+[EXTRACT] Connecting to tasks_sample.csv: https://raw.githubusercontent.com/Dalila-Ku/Platform_Design/main/db_files/dalila/data/tasks_sample.csv
+[EXTRACT] WARNING: could not read tasks_sample.csv from GitHub
+[EXTRACT] Reason: URLError: <urlopen error [Errno -3] Temporary failure in name resolution>
+[EXTRACT] Using local fallback: /mnt/data/ETL_gael/data/tasks_sample_seed.csv
+[EXTRACT] tasks_sample.csv: 20 rows read from fallback
+[EXTRACT] Connecting to users.csv: https://raw.githubusercontent.com/Dalila-Ku/Platform_Design/main/db_files/esau/data/users.csv
+[EXTRACT] WARNING: could not read users.csv from GitHub
+[EXTRACT] Reason: URLError: <urlopen error [Errno -3] Temporary failure in name resolution>
+[EXTRACT] Using local fallback: /mnt/data/ETL_gael/data/users_seed.csv
+[EXTRACT] users.csv: 5 rows read from fallback
+[EXTRACT] Completed: tasks=20 rows, users=5 rows
+[CLEAN] Removed task duplicates: 20 -> 20
+[CLEAN] Removed user duplicates: 5 -> 5
+[CLEAN] Standardized text columns in tasks: ['title', 'status', 'priority', 'difficulty', 'assignment_date', 'start_date', 'due_date', 'completed_date']
+[CLEAN] Standardized text columns in users: ['full_name', 'email', 'role']
+[CLEAN] Parsed assignment_date. Missing values: 0
+[CLEAN] Parsed start_date. Missing values: 3
+[CLEAN] Parsed due_date. Missing values: 0
+[CLEAN] Parsed completed_date. Missing values: 8
+[CLEAN] Completed: tasks=20 rows, users=5 rows
+[SYNTHETIC] Generated 250 assignment interaction records
+[SYNTHETIC] Source platform tasks used: 20
+[SYNTHETIC] Source platform users used: 5
+[TRANSFORM] Removed invalid/duplicate assignment records: 250 -> 250
+[TRANSFORM] Derived columns created:
+[TRANSFORM] early_start, start_group, submitted_on_time, completion_time_days, days_vs_deadline
+[TRANSFORM] Final analytical records: 250
+[INDICATORS] Indicator table created
+              start_group  assignment_count  mean_hours_to_start  mean_on_time_submission_rate  mean_completion_time_days  mean_days_before_deadline
+Early start (<= 24 hours)               135              11.9111                        0.7407                    13.4370                    -0.0815
+  Late start (> 24 hours)               115              61.6696                        0.4087                    15.2261                    -1.9043
+[INDICATORS] Main result created
+                                                                                                                                  research_question                                                                        indicator  early_start_rate  late_start_rate  difference_early_minus_late  total_assignments                                              interpretation
+Do students who start working on assignments within 24 hours of receiving them have a higher on-time submission rate than students who start later? Mean on-time submission rate compared between early-start and late-start groups.            0.7407           0.4087                        0.332                250 Early-start students show a higher on-time submission rate.
+[LOAD] 250 rows saved to /mnt/data/ETL_gael/outputs/gael_final_assignment_dataset.csv
+[LOAD] 2 rows saved to /mnt/data/ETL_gael/outputs/gael_indicator_summary.csv
+[LOAD] JSON result saved to /mnt/data/ETL_gael/outputs/gael_indicator_result.json
+[LOAD] Excel report saved to /mnt/data/ETL_gael/outputs/gael_etl_report.xlsx
+======================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+======================================================================
+
+
+STDERR:
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py", line 30820, in hydrate_crdt_from_proto
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py", line 749, in __call__
+  File "/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
