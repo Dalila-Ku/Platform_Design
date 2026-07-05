@@ -1,21 +1,201 @@
 task_id,project_id,title,status,priority,difficulty,assignment_date,start_date,due_date,completed_date,estimated_hours,actual_hours,created_by,assigned_user_id,assigned_user_name,status_update_count,submitted_on_time
-1,5,Disenar esquema de base de datos,done,high,medium,2026-07-05,,2026-07-06,,3.6,,3,2,Esau Palomo,1,False
-2,5,Implementar autenticacion JWT,cancelled,low,medium,2026-07-05,,2026-07-04,,4.1,,2,5,Ingrid Castillo,2,
-3,3,Crear formulario de registro,in_review,high,medium,2026-07-05,,2026-07-27,,7.6,,2,2,Esau Palomo,3,
-4,5,Documentar endpoints de la API,todo,high,medium,2026-07-05,,2026-07-09,,7.6,,3,3,Yeimi Piste,3,
-5,5,Pruebas unitarias del modulo de usuarios,in_progress,high,medium,2026-07-05,,2026-07-27,,4.2,,5,3,Yeimi Piste,3,
-6,4,Configurar entorno de produccion,cancelled,critical,medium,2026-07-05,,2026-06-26,,3.8,,3,1,Dalila Ku,2,
-7,5,Revisar pull requests del equipo,in_progress,low,medium,2026-07-05,,2026-07-24,,5.7,,4,4,Gael Perez,2,
-8,1,Diseno de interfaz de dashboard,in_review,high,medium,2026-07-05,,2026-06-23,,1.3,,3,4,Gael Perez,3,
-9,1,Integracion con API externa,todo,medium,medium,2026-07-05,,2026-06-25,,2.8,,4,3,Yeimi Piste,1,
-10,3,Optimizar consultas SQL,cancelled,medium,medium,2026-07-05,,2026-07-08,,5.7,,3,2,Esau Palomo,2,
-11,1,Crear script de migracion,in_review,high,medium,2026-07-05,,2026-06-24,,7.5,,2,4,Gael Perez,4,
-12,1,Actualizar dependencias del proyecto,done,critical,medium,2026-07-05,,2026-06-25,,4.5,,5,5,Ingrid Castillo,1,False
-13,3,Disenar modelo de datos para reportes,in_progress,critical,medium,2026-07-05,,2026-07-07,,7.9,,3,3,Yeimi Piste,5,
-14,5,Implementar paginacion en endpoints,cancelled,low,medium,2026-07-05,,2026-07-01,,2.7,,4,5,Ingrid Castillo,4,
-15,1,Agregar validaciones de formularios,in_review,low,medium,2026-07-05,,2026-07-15,,4.9,,2,3,Yeimi Piste,4,
-16,4,Subir archivos al repositorio,todo,critical,medium,2026-07-05,,2026-06-28,,6.8,,3,3,Yeimi Piste,6,
-17,4,Revisar documentacion tecnica,cancelled,critical,medium,2026-07-05,,2026-07-06,,1.9,,2,3,Yeimi Piste,3,
-18,5,Crear datos de prueba,in_progress,critical,medium,2026-07-05,,2026-08-15,,1.4,,1,4,Gael Perez,1,
-19,3,Diseno de flujo de trabajo,done,critical,medium,2026-07-05,,2026-06-29,,5.2,,3,1,Dalila Ku,2,False
-20,3,Presentacion del avance al equipo,cancelled,low,medium,2026-07-05,,2026-08-04,,7.2,,2,4,Gael Perez,1,
+1,2,Disenar esquema de base de datos,cancelled,low,medium,2026-04-24,,2026-05-01,,1.2,,2,4,Gael Perez,1,
+2,7,Implementar autenticacion JWT,in_review,low,medium,2026-05-02,2026-05-06,2026-05-25,,1.6,,2,2,Esau Palomo,2,
+3,1,Crear formulario de registro,todo,medium,medium,2026-04-10,,2026-04-20,,5.3,,5,4,Gael Perez,3,
+4,1,Documentar endpoints de la API,in_review,critical,medium,2026-04-24,2026-04-25,2026-05-17,,4.6,,5,4,Gael Perez,3,
+5,7,Pruebas unitarias del modulo de usuarios,todo,critical,medium,2026-04-15,,2026-05-11,,4.1,,4,5,Ingrid Castillo,3,
+6,5,Configurar entorno de produccion,in_progress,critical,medium,2026-04-12,2026-04-13,2026-04-20,,7.9,,1,5,Ingrid Castillo,2,
+7,1,Revisar pull requests del equipo,in_progress,critical,medium,2026-05-02,2026-05-02,2026-05-23,,3.1,,4,1,Dalila Ku,2,
+8,8,Diseno de interfaz de dashboard,in_progress,critical,medium,2026-04-09,2026-04-12,2026-04-24,,2.6,,2,3,Yeimi Piste,3,
+9,8,Integracion con API externa,done,low,medium,2026-05-01,2026-05-03,2026-05-09,2026-05-18,1.2,,4,1,Dalila Ku,3,False
+10,4,Optimizar consultas SQL,done,high,medium,2026-05-06,2026-05-07,2026-05-27,2026-05-27,5.5,,1,1,Dalila Ku,3,True
+11,5,Crear script de migracion,todo,high,medium,2026-05-03,,2026-05-17,,2.7,,5,4,Gael Perez,2,
+12,7,Actualizar dependencias del proyecto,cancelled,critical,medium,2026-05-03,,2026-05-14,,6.7,,1,4,Gael Perez,2,
+13,4,Disenar modelo de datos para reportes,cancelled,medium,medium,2026-04-15,,2026-04-26,,3.4,,3,5,Ingrid Castillo,5,
+14,1,Implementar paginacion en endpoints,cancelled,low,medium,2026-04-27,,2026-05-21,,6.3,,5,1,Dalila Ku,2,
+15,8,Agregar validaciones de formularios,cancelled,medium,medium,2026-04-10,,2026-04-26,,5.3,,4,2,Esau Palomo,4,
+16,8,Subir archivos al repositorio,in_review,medium,medium,2026-04-21,2026-04-22,2026-05-14,,6.4,,5,3,Yeimi Piste,6,
+17,4,Revisar documentacion tecnica,in_progress,low,medium,2026-04-12,2026-04-12,2026-05-07,,6.3,,1,4,Gael Perez,3,
+18,6,Crear datos de prueba,cancelled,medium,medium,2026-04-29,,2026-05-27,,3.7,,5,1,Dalila Ku,1,
+19,1,Diseno de flujo de trabajo,todo,low,medium,2026-04-15,,2026-04-25,,2.9,,4,2,Esau Palomo,2,
+20,1,Presentacion del avance al equipo,done,critical,medium,2026-04-06,2026-04-11,2026-04-30,2026-04-23,5.2,,3,3,Yeimi Piste,2,True
+21,5,Disenar esquema de base de datos,cancelled,low,medium,2026-04-11,,2026-05-02,,2.3,,3,5,Ingrid Castillo,3,
+22,1,Implementar autenticacion JWT,todo,critical,medium,2026-04-14,,2026-04-30,,3.3,,5,5,Ingrid Castillo,4,
+23,5,Crear formulario de registro,done,low,medium,2026-04-16,2026-04-18,2026-05-13,2026-04-23,3.0,,5,3,Yeimi Piste,3,True
+24,4,Documentar endpoints de la API,in_review,medium,medium,2026-04-15,2026-04-17,2026-04-30,,3.2,,2,2,Esau Palomo,5,
+25,3,Pruebas unitarias del modulo de usuarios,cancelled,medium,medium,2026-05-02,,2026-05-31,,1.3,,4,3,Yeimi Piste,4,
+26,8,Configurar entorno de produccion,todo,medium,medium,2026-04-08,,2026-04-26,,2.0,,2,4,Gael Perez,1,
+27,7,Revisar pull requests del equipo,done,high,medium,2026-04-25,2026-04-30,2026-05-08,2026-05-15,2.6,,2,4,Gael Perez,3,False
+28,4,Diseno de interfaz de dashboard,in_progress,medium,medium,2026-04-30,2026-05-02,2026-05-24,,1.7,,3,3,Yeimi Piste,5,
+29,6,Integracion con API externa,todo,critical,medium,2026-04-08,,2026-04-17,,6.9,,1,5,Ingrid Castillo,4,
+30,3,Optimizar consultas SQL,todo,low,medium,2026-04-10,,2026-04-17,,6.2,,5,1,Dalila Ku,1,
+31,3,Crear script de migracion,in_progress,medium,medium,2026-04-14,2026-04-17,2026-04-27,,4.3,,5,3,Yeimi Piste,2,
+32,3,Actualizar dependencias del proyecto,in_progress,critical,medium,2026-04-14,2026-04-16,2026-04-21,,5.5,,5,2,Esau Palomo,4,
+33,5,Disenar modelo de datos para reportes,todo,medium,medium,2026-04-16,,2026-05-09,,7.2,,2,2,Esau Palomo,4,
+34,6,Implementar paginacion en endpoints,todo,low,medium,2026-04-07,,2026-04-19,,1.0,,4,2,Esau Palomo,4,
+35,5,Agregar validaciones de formularios,todo,critical,medium,2026-05-04,,2026-06-03,,1.3,,4,4,Gael Perez,4,
+36,7,Subir archivos al repositorio,cancelled,high,medium,2026-04-22,,2026-05-07,,2.3,,2,4,Gael Perez,4,
+37,4,Revisar documentacion tecnica,in_progress,low,medium,2026-05-02,2026-05-03,2026-05-25,,2.3,,2,2,Esau Palomo,4,
+38,8,Crear datos de prueba,done,medium,medium,2026-04-07,2026-04-09,2026-04-17,2026-04-09,6.5,,1,3,Yeimi Piste,4,True
+39,1,Diseno de flujo de trabajo,in_review,medium,medium,2026-04-14,2026-04-15,2026-04-22,,6.0,,4,4,Gael Perez,3,
+40,5,Presentacion del avance al equipo,cancelled,low,medium,2026-05-04,,2026-05-24,,1.7,,4,1,Dalila Ku,2,
+41,8,Disenar esquema de base de datos,cancelled,low,medium,2026-04-19,,2026-05-03,,1.0,,2,1,Dalila Ku,5,
+42,1,Implementar autenticacion JWT,in_progress,low,medium,2026-04-29,2026-04-30,2026-05-14,,2.0,,1,3,Yeimi Piste,4,
+43,5,Crear formulario de registro,in_progress,critical,medium,2026-04-08,2026-04-09,2026-04-16,,5.1,,2,3,Yeimi Piste,1,
+44,3,Documentar endpoints de la API,done,medium,medium,2026-05-03,2026-05-05,2026-05-30,2026-05-17,2.4,,4,5,Ingrid Castillo,3,True
+45,3,Pruebas unitarias del modulo de usuarios,in_progress,critical,medium,2026-04-11,2026-04-13,2026-04-20,,5.6,,4,3,Yeimi Piste,1,
+46,3,Configurar entorno de produccion,done,low,medium,2026-05-01,2026-05-04,2026-05-22,2026-05-25,1.2,,1,4,Gael Perez,5,False
+47,1,Revisar pull requests del equipo,in_review,medium,medium,2026-05-02,2026-05-06,2026-05-30,,4.4,,1,2,Esau Palomo,1,
+48,3,Diseno de interfaz de dashboard,in_review,low,medium,2026-04-09,2026-04-09,2026-05-02,,6.2,,2,4,Gael Perez,1,
+49,6,Integracion con API externa,in_progress,low,medium,2026-04-24,2026-04-25,2026-05-01,,4.2,,4,4,Gael Perez,5,
+50,6,Optimizar consultas SQL,cancelled,low,medium,2026-04-08,,2026-05-05,,3.2,,3,3,Yeimi Piste,1,
+51,6,Crear script de migracion,done,low,medium,2026-04-27,2026-05-02,2026-05-13,2026-05-11,5.9,,2,1,Dalila Ku,5,True
+52,2,Actualizar dependencias del proyecto,cancelled,high,medium,2026-04-16,,2026-04-25,,3.4,,4,4,Gael Perez,2,
+53,3,Disenar modelo de datos para reportes,done,medium,medium,2026-05-02,2026-05-04,2026-05-12,2026-05-18,7.1,,5,3,Yeimi Piste,4,False
+54,5,Implementar paginacion en endpoints,cancelled,critical,medium,2026-04-12,,2026-04-27,,3.5,,5,3,Yeimi Piste,4,
+55,3,Agregar validaciones de formularios,cancelled,critical,medium,2026-05-03,,2026-05-23,,1.3,,3,3,Yeimi Piste,3,
+56,5,Subir archivos al repositorio,in_progress,critical,medium,2026-04-06,2026-04-11,2026-04-16,,1.1,,3,4,Gael Perez,5,
+57,2,Revisar documentacion tecnica,cancelled,high,medium,2026-04-06,,2026-04-18,,2.8,,1,1,Dalila Ku,4,
+58,5,Crear datos de prueba,cancelled,critical,medium,2026-04-08,,2026-04-30,,7.8,,5,5,Ingrid Castillo,5,
+59,5,Diseno de flujo de trabajo,todo,critical,medium,2026-05-01,,2026-05-15,,6.8,,4,4,Gael Perez,3,
+60,5,Presentacion del avance al equipo,in_review,critical,medium,2026-04-17,2026-04-18,2026-05-11,,4.2,,5,2,Esau Palomo,2,
+61,3,Disenar esquema de base de datos,done,critical,medium,2026-04-24,2026-04-27,2026-05-18,2026-05-08,7.6,,5,3,Yeimi Piste,4,True
+62,7,Implementar autenticacion JWT,in_review,medium,medium,2026-04-24,2026-04-29,2026-05-16,,5.6,,5,3,Yeimi Piste,5,
+63,8,Crear formulario de registro,cancelled,critical,medium,2026-04-15,,2026-04-27,,1.9,,2,3,Yeimi Piste,1,
+64,1,Documentar endpoints de la API,in_review,critical,medium,2026-04-23,2026-04-23,2026-05-03,,5.4,,5,3,Yeimi Piste,2,
+65,7,Pruebas unitarias del modulo de usuarios,in_review,critical,medium,2026-04-11,2026-04-11,2026-04-28,,7.2,,3,2,Esau Palomo,1,
+66,6,Configurar entorno de produccion,cancelled,critical,medium,2026-04-28,,2026-05-18,,2.7,,2,2,Esau Palomo,4,
+67,6,Revisar pull requests del equipo,cancelled,medium,medium,2026-04-12,,2026-05-07,,5.1,,5,4,Gael Perez,1,
+68,1,Diseno de interfaz de dashboard,done,medium,medium,2026-04-12,2026-04-12,2026-05-08,2026-04-14,3.0,,4,2,Esau Palomo,3,True
+69,2,Integracion con API externa,cancelled,critical,medium,2026-04-12,,2026-05-09,,1.8,,4,1,Dalila Ku,2,
+70,6,Optimizar consultas SQL,done,high,medium,2026-04-18,2026-04-19,2026-05-06,2026-04-26,7.9,,4,2,Esau Palomo,4,True
+71,4,Crear script de migracion,in_progress,critical,medium,2026-04-17,2026-04-17,2026-05-03,,5.7,,4,2,Esau Palomo,5,
+72,7,Actualizar dependencias del proyecto,cancelled,low,medium,2026-04-23,,2026-05-13,,5.2,,2,3,Yeimi Piste,3,
+73,1,Disenar modelo de datos para reportes,in_review,medium,medium,2026-04-15,2026-04-15,2026-05-10,,2.8,,2,4,Gael Perez,4,
+74,7,Implementar paginacion en endpoints,cancelled,medium,medium,2026-04-25,,2026-05-10,,7.7,,1,1,Dalila Ku,5,
+75,1,Agregar validaciones de formularios,in_progress,medium,medium,2026-04-14,2026-04-14,2026-04-27,,1.5,,3,3,Yeimi Piste,6,
+76,8,Subir archivos al repositorio,cancelled,critical,medium,2026-04-15,,2026-05-13,,3.3,,4,5,Ingrid Castillo,5,
+77,8,Revisar documentacion tecnica,done,low,medium,2026-04-17,2026-04-19,2026-04-28,2026-04-21,6.9,,2,4,Gael Perez,1,True
+78,8,Crear datos de prueba,done,high,medium,2026-05-06,2026-05-09,2026-05-26,2026-05-31,5.6,,1,2,Esau Palomo,7,False
+79,1,Diseno de flujo de trabajo,todo,high,medium,2026-05-03,,2026-05-19,,7.5,,3,4,Gael Perez,4,
+80,3,Presentacion del avance al equipo,in_progress,high,medium,2026-05-06,2026-05-06,2026-05-17,,7.4,,2,4,Gael Perez,1,
+81,4,Disenar esquema de base de datos,in_progress,high,medium,2026-04-27,2026-05-02,2026-05-23,,2.8,,1,3,Yeimi Piste,1,
+82,4,Implementar autenticacion JWT,cancelled,medium,medium,2026-04-17,,2026-05-08,,2.2,,1,3,Yeimi Piste,1,
+83,1,Crear formulario de registro,in_progress,low,medium,2026-04-19,2026-04-20,2026-05-04,,6.8,,4,2,Esau Palomo,3,
+84,2,Documentar endpoints de la API,done,critical,medium,2026-04-24,2026-04-24,2026-05-03,2026-05-11,4.9,,5,1,Dalila Ku,7,False
+85,3,Pruebas unitarias del modulo de usuarios,done,high,medium,2026-04-09,2026-04-12,2026-04-17,2026-04-14,6.7,,2,1,Dalila Ku,4,True
+86,5,Configurar entorno de produccion,cancelled,high,medium,2026-04-08,,2026-05-03,,4.7,,4,4,Gael Perez,5,
+87,4,Revisar pull requests del equipo,cancelled,medium,medium,2026-04-11,,2026-04-29,,7.4,,1,5,Ingrid Castillo,3,
+88,6,Diseno de interfaz de dashboard,todo,medium,medium,2026-04-24,,2026-05-19,,7.8,,5,3,Yeimi Piste,4,
+89,6,Integracion con API externa,cancelled,medium,medium,2026-04-07,,2026-04-24,,4.8,,3,3,Yeimi Piste,5,
+90,7,Optimizar consultas SQL,in_progress,low,medium,2026-04-29,2026-05-01,2026-05-23,,3.4,,4,4,Gael Perez,3,
+91,1,Crear script de migracion,done,low,medium,2026-04-23,2026-04-27,2026-05-23,2026-05-19,2.0,,5,5,Ingrid Castillo,1,True
+92,6,Actualizar dependencias del proyecto,in_progress,high,medium,2026-04-24,2026-04-29,2026-05-07,,4.5,,2,5,Ingrid Castillo,5,
+93,6,Disenar modelo de datos para reportes,cancelled,high,medium,2026-04-21,,2026-05-04,,6.2,,4,1,Dalila Ku,4,
+94,7,Implementar paginacion en endpoints,in_progress,high,medium,2026-04-10,2026-04-13,2026-05-10,,5.9,,4,5,Ingrid Castillo,4,
+95,7,Agregar validaciones de formularios,cancelled,critical,medium,2026-05-01,,2026-05-31,,7.2,,1,3,Yeimi Piste,5,
+96,5,Subir archivos al repositorio,done,low,medium,2026-04-25,2026-04-30,2026-05-09,2026-05-01,7.1,,1,5,Ingrid Castillo,2,True
+97,8,Revisar documentacion tecnica,in_review,critical,medium,2026-04-18,2026-04-21,2026-05-02,,5.5,,1,4,Gael Perez,1,
+98,2,Crear datos de prueba,cancelled,critical,medium,2026-04-20,,2026-04-27,,4.4,,4,1,Dalila Ku,3,
+99,8,Diseno de flujo de trabajo,in_progress,medium,medium,2026-04-20,2026-04-24,2026-05-08,,6.4,,5,2,Esau Palomo,5,
+100,4,Presentacion del avance al equipo,todo,high,medium,2026-04-27,,2026-05-24,,6.9,,1,3,Yeimi Piste,4,
+101,1,Disenar esquema de base de datos,todo,critical,medium,2026-04-29,,2026-05-09,,1.3,,3,4,Gael Perez,5,
+102,5,Implementar autenticacion JWT,done,high,medium,2026-04-19,2026-04-19,2026-05-03,2026-04-29,2.9,,5,3,Yeimi Piste,2,True
+103,8,Crear formulario de registro,in_progress,medium,medium,2026-04-06,2026-04-11,2026-04-30,,7.8,,4,2,Esau Palomo,2,
+104,8,Documentar endpoints de la API,in_progress,medium,medium,2026-04-24,2026-04-27,2026-05-17,,1.5,,2,5,Ingrid Castillo,5,
+105,4,Pruebas unitarias del modulo de usuarios,done,high,medium,2026-05-03,2026-05-03,2026-05-14,2026-05-20,3.5,,1,5,Ingrid Castillo,6,False
+106,3,Configurar entorno de produccion,todo,critical,medium,2026-05-01,,2026-05-12,,7.8,,2,2,Esau Palomo,3,
+107,8,Revisar pull requests del equipo,done,critical,medium,2026-04-24,2026-04-29,2026-05-15,2026-05-08,4.8,,1,3,Yeimi Piste,3,True
+108,8,Diseno de interfaz de dashboard,in_progress,low,medium,2026-04-06,2026-04-07,2026-04-18,,7.4,,5,1,Dalila Ku,4,
+109,2,Integracion con API externa,in_progress,high,medium,2026-04-18,2026-04-20,2026-05-13,,1.4,,4,5,Ingrid Castillo,1,
+110,1,Optimizar consultas SQL,done,high,medium,2026-04-09,2026-04-11,2026-05-01,2026-04-24,7.9,,1,4,Gael Perez,5,True
+111,7,Crear script de migracion,done,critical,medium,2026-05-06,2026-05-10,2026-06-05,2026-06-06,1.3,,4,2,Esau Palomo,5,False
+112,7,Actualizar dependencias del proyecto,todo,critical,medium,2026-04-10,,2026-04-26,,2.7,,1,1,Dalila Ku,1,
+113,8,Disenar modelo de datos para reportes,cancelled,high,medium,2026-04-12,,2026-05-04,,4.5,,4,4,Gael Perez,2,
+114,5,Implementar paginacion en endpoints,in_progress,high,medium,2026-04-14,2026-04-15,2026-04-21,,2.0,,1,2,Esau Palomo,1,
+115,7,Agregar validaciones de formularios,todo,high,medium,2026-04-12,,2026-04-20,,3.6,,1,3,Yeimi Piste,5,
+116,3,Subir archivos al repositorio,in_review,high,medium,2026-04-25,2026-04-27,2026-05-23,,4.6,,4,4,Gael Perez,1,
+117,3,Revisar documentacion tecnica,cancelled,low,medium,2026-04-11,,2026-04-26,,1.1,,3,3,Yeimi Piste,4,
+118,8,Crear datos de prueba,todo,high,medium,2026-05-06,,2026-05-13,,1.2,,4,3,Yeimi Piste,3,
+119,5,Diseno de flujo de trabajo,in_progress,high,medium,2026-04-08,2026-04-11,2026-05-07,,6.0,,5,1,Dalila Ku,3,
+120,1,Presentacion del avance al equipo,todo,critical,medium,2026-04-13,,2026-05-05,,2.2,,5,4,Gael Perez,1,
+121,6,Disenar esquema de base de datos,todo,medium,medium,2026-04-29,,2026-05-26,,5.0,,4,1,Dalila Ku,5,
+122,6,Implementar autenticacion JWT,cancelled,low,medium,2026-04-07,,2026-04-28,,1.2,,3,4,Gael Perez,4,
+123,7,Crear formulario de registro,done,medium,medium,2026-04-23,2026-04-27,2026-05-19,2026-05-20,6.5,,1,5,Ingrid Castillo,7,False
+124,7,Documentar endpoints de la API,in_progress,critical,medium,2026-05-05,2026-05-09,2026-05-18,,4.8,,5,5,Ingrid Castillo,2,
+125,5,Pruebas unitarias del modulo de usuarios,in_progress,medium,medium,2026-05-04,2026-05-04,2026-05-20,,1.0,,5,5,Ingrid Castillo,3,
+126,6,Configurar entorno de produccion,in_progress,low,medium,2026-04-25,2026-04-25,2026-05-21,,7.9,,3,5,Ingrid Castillo,6,
+127,2,Revisar pull requests del equipo,in_progress,critical,medium,2026-04-11,2026-04-11,2026-04-27,,4.2,,4,3,Yeimi Piste,3,
+128,8,Diseno de interfaz de dashboard,done,medium,medium,2026-04-14,2026-04-16,2026-04-22,2026-04-16,5.3,,3,2,Esau Palomo,2,True
+129,4,Integracion con API externa,cancelled,low,medium,2026-05-04,,2026-05-16,,4.7,,2,3,Yeimi Piste,1,
+130,1,Optimizar consultas SQL,in_progress,critical,medium,2026-04-13,2026-04-13,2026-04-26,,4.4,,3,5,Ingrid Castillo,4,
+131,4,Crear script de migracion,done,medium,medium,2026-04-30,2026-04-30,2026-05-24,2026-05-22,2.2,,5,4,Gael Perez,5,True
+132,7,Actualizar dependencias del proyecto,done,critical,medium,2026-04-06,2026-04-08,2026-04-22,2026-04-16,7.1,,5,5,Ingrid Castillo,3,True
+133,4,Disenar modelo de datos para reportes,in_review,high,medium,2026-04-26,2026-04-26,2026-05-26,,2.9,,1,5,Ingrid Castillo,5,
+134,4,Implementar paginacion en endpoints,done,medium,medium,2026-04-26,2026-04-27,2026-05-11,2026-05-17,3.3,,4,4,Gael Perez,6,False
+135,3,Agregar validaciones de formularios,cancelled,medium,medium,2026-05-03,,2026-05-11,,1.6,,4,3,Yeimi Piste,6,
+136,8,Subir archivos al repositorio,in_review,low,medium,2026-04-20,2026-04-24,2026-05-04,,1.3,,3,3,Yeimi Piste,1,
+137,7,Revisar documentacion tecnica,cancelled,critical,medium,2026-04-22,,2026-05-07,,1.7,,3,2,Esau Palomo,3,
+138,6,Crear datos de prueba,todo,critical,medium,2026-04-23,,2026-05-04,,4.2,,4,5,Ingrid Castillo,4,
+139,3,Diseno de flujo de trabajo,todo,critical,medium,2026-05-02,,2026-05-20,,3.0,,2,3,Yeimi Piste,4,
+140,3,Presentacion del avance al equipo,cancelled,critical,medium,2026-05-03,,2026-05-22,,5.9,,4,3,Yeimi Piste,4,
+141,6,Disenar esquema de base de datos,in_review,medium,medium,2026-04-15,2026-04-19,2026-05-09,,4.3,,5,1,Dalila Ku,3,
+142,8,Implementar autenticacion JWT,cancelled,high,medium,2026-04-12,,2026-05-06,,6.6,,5,4,Gael Perez,1,
+143,2,Crear formulario de registro,done,low,medium,2026-04-21,2026-04-25,2026-05-10,2026-05-03,4.0,,2,2,Esau Palomo,3,True
+144,2,Documentar endpoints de la API,todo,low,medium,2026-04-15,,2026-05-11,,5.0,,5,5,Ingrid Castillo,1,
+145,5,Pruebas unitarias del modulo de usuarios,in_progress,critical,medium,2026-04-18,2026-04-20,2026-05-11,,2.3,,5,2,Esau Palomo,1,
+146,3,Configurar entorno de produccion,in_progress,low,medium,2026-05-02,2026-05-04,2026-05-27,,6.5,,5,4,Gael Perez,4,
+147,8,Revisar pull requests del equipo,done,medium,medium,2026-04-25,2026-04-29,2026-05-10,2026-05-11,2.6,,3,5,Ingrid Castillo,8,False
+148,8,Diseno de interfaz de dashboard,in_review,medium,medium,2026-04-15,2026-04-18,2026-04-28,,6.0,,3,5,Ingrid Castillo,1,
+149,2,Integracion con API externa,cancelled,high,medium,2026-05-01,,2026-05-09,,2.4,,5,3,Yeimi Piste,1,
+150,3,Optimizar consultas SQL,cancelled,low,medium,2026-04-21,,2026-05-14,,7.4,,5,1,Dalila Ku,3,
+151,2,Crear script de migracion,in_progress,medium,medium,2026-04-20,2026-04-21,2026-05-16,,6.0,,3,3,Yeimi Piste,2,
+152,7,Actualizar dependencias del proyecto,done,high,medium,2026-04-14,2026-04-17,2026-04-28,2026-05-04,2.7,,4,2,Esau Palomo,7,False
+153,8,Disenar modelo de datos para reportes,cancelled,high,medium,2026-04-20,,2026-05-15,,3.6,,5,2,Esau Palomo,2,
+154,7,Implementar paginacion en endpoints,in_review,low,medium,2026-04-23,2026-04-27,2026-05-01,,4.2,,2,3,Yeimi Piste,3,
+155,8,Agregar validaciones de formularios,cancelled,high,medium,2026-04-25,,2026-05-07,,2.2,,3,1,Dalila Ku,4,
+156,4,Subir archivos al repositorio,todo,critical,medium,2026-04-21,,2026-05-01,,4.3,,2,5,Ingrid Castillo,1,
+157,6,Revisar documentacion tecnica,in_review,low,medium,2026-04-10,2026-04-14,2026-04-19,,3.2,,3,3,Yeimi Piste,5,
+158,8,Crear datos de prueba,todo,medium,medium,2026-04-25,,2026-05-24,,5.2,,1,1,Dalila Ku,5,
+159,8,Diseno de flujo de trabajo,done,critical,medium,2026-04-22,2026-04-27,2026-04-30,2026-04-27,2.1,,5,3,Yeimi Piste,3,True
+160,7,Presentacion del avance al equipo,in_review,low,medium,2026-05-03,2026-05-04,2026-05-14,,3.3,,4,1,Dalila Ku,1,
+161,3,Disenar esquema de base de datos,todo,medium,medium,2026-04-11,,2026-05-01,,7.5,,5,3,Yeimi Piste,3,
+162,5,Implementar autenticacion JWT,todo,critical,medium,2026-04-11,,2026-05-04,,2.8,,4,4,Gael Perez,1,
+163,7,Crear formulario de registro,done,critical,medium,2026-04-15,2026-04-16,2026-05-10,2026-04-20,6.2,,5,1,Dalila Ku,4,True
+164,1,Documentar endpoints de la API,in_review,high,medium,2026-04-10,2026-04-14,2026-05-10,,3.0,,4,2,Esau Palomo,4,
+165,1,Pruebas unitarias del modulo de usuarios,todo,high,medium,2026-04-28,,2026-05-12,,4.6,,5,1,Dalila Ku,4,
+166,3,Configurar entorno de produccion,in_progress,high,medium,2026-05-03,2026-05-08,2026-05-12,,1.5,,2,3,Yeimi Piste,3,
+167,2,Revisar pull requests del equipo,todo,medium,medium,2026-04-25,,2026-05-20,,2.8,,4,3,Yeimi Piste,3,
+168,4,Diseno de interfaz de dashboard,cancelled,low,medium,2026-05-05,,2026-05-19,,1.5,,1,2,Esau Palomo,1,
+169,4,Integracion con API externa,in_progress,low,medium,2026-04-18,2026-04-18,2026-05-14,,4.9,,1,3,Yeimi Piste,5,
+170,1,Optimizar consultas SQL,in_review,critical,medium,2026-04-16,2026-04-20,2026-05-13,,4.9,,4,4,Gael Perez,4,
+171,4,Crear script de migracion,cancelled,critical,medium,2026-04-19,,2026-05-17,,6.3,,2,4,Gael Perez,5,
+172,2,Actualizar dependencias del proyecto,done,medium,medium,2026-05-04,2026-05-09,2026-05-21,2026-05-26,3.3,,5,2,Esau Palomo,7,False
+173,4,Disenar modelo de datos para reportes,in_review,low,medium,2026-05-03,2026-05-04,2026-05-12,,6.3,,3,3,Yeimi Piste,2,
+174,1,Implementar paginacion en endpoints,done,critical,medium,2026-04-08,2026-04-11,2026-04-25,2026-05-05,7.5,,4,2,Esau Palomo,6,False
+175,1,Agregar validaciones de formularios,cancelled,medium,medium,2026-05-01,,2026-05-25,,5.7,,2,4,Gael Perez,4,
+176,2,Subir archivos al repositorio,todo,medium,medium,2026-04-22,,2026-05-03,,5.2,,4,2,Esau Palomo,3,
+177,7,Revisar documentacion tecnica,in_review,critical,medium,2026-04-18,2026-04-18,2026-05-11,,7.3,,5,2,Esau Palomo,5,
+178,8,Crear datos de prueba,todo,low,medium,2026-05-02,,2026-05-18,,3.8,,1,2,Esau Palomo,4,
+179,7,Diseno de flujo de trabajo,cancelled,low,medium,2026-04-26,,2026-05-04,,7.9,,4,1,Dalila Ku,3,
+180,4,Presentacion del avance al equipo,todo,medium,medium,2026-04-24,,2026-05-17,,4.6,,2,2,Esau Palomo,5,
+181,6,Disenar esquema de base de datos,todo,low,medium,2026-04-23,,2026-05-20,,1.2,,1,3,Yeimi Piste,3,
+182,2,Implementar autenticacion JWT,todo,high,medium,2026-04-08,,2026-04-19,,1.7,,2,5,Ingrid Castillo,1,
+183,3,Crear formulario de registro,done,medium,medium,2026-05-05,2026-05-08,2026-05-17,2026-05-15,2.1,,3,2,Esau Palomo,2,True
+184,8,Documentar endpoints de la API,done,low,medium,2026-04-29,2026-05-02,2026-05-22,2026-05-09,2.5,,4,4,Gael Perez,3,True
+185,6,Pruebas unitarias del modulo de usuarios,in_progress,low,medium,2026-04-25,2026-04-25,2026-05-07,,1.9,,4,4,Gael Perez,1,
+186,3,Configurar entorno de produccion,done,low,medium,2026-04-18,2026-04-21,2026-05-07,2026-05-01,5.0,,3,5,Ingrid Castillo,2,True
+187,4,Revisar pull requests del equipo,cancelled,high,medium,2026-04-27,,2026-05-26,,5.8,,5,3,Yeimi Piste,5,
+188,6,Diseno de interfaz de dashboard,in_progress,medium,medium,2026-04-09,2026-04-09,2026-04-29,,6.5,,3,2,Esau Palomo,4,
+189,1,Integracion con API externa,todo,low,medium,2026-04-19,,2026-05-08,,2.7,,1,4,Gael Perez,5,
+190,7,Optimizar consultas SQL,cancelled,medium,medium,2026-04-20,,2026-04-28,,4.1,,4,5,Ingrid Castillo,6,
+191,2,Crear script de migracion,done,medium,medium,2026-05-03,2026-05-05,2026-05-28,2026-05-30,7.2,,4,3,Yeimi Piste,5,False
+192,3,Actualizar dependencias del proyecto,done,low,medium,2026-05-01,2026-05-01,2026-05-10,2026-05-05,7.9,,2,4,Gael Perez,1,True
+193,4,Disenar modelo de datos para reportes,todo,critical,medium,2026-04-06,,2026-05-06,,5.5,,5,2,Esau Palomo,5,
+194,7,Implementar paginacion en endpoints,in_review,critical,medium,2026-04-30,2026-05-03,2026-05-12,,5.0,,4,4,Gael Perez,3,
+195,5,Agregar validaciones de formularios,in_review,critical,medium,2026-04-09,2026-04-09,2026-05-08,,5.8,,2,5,Ingrid Castillo,4,
+196,4,Subir archivos al repositorio,cancelled,critical,medium,2026-04-09,,2026-05-03,,1.4,,3,3,Yeimi Piste,6,
+197,7,Revisar documentacion tecnica,done,low,medium,2026-04-24,2026-04-26,2026-05-15,2026-05-07,6.4,,4,1,Dalila Ku,1,True
+198,1,Crear datos de prueba,in_review,critical,medium,2026-04-23,2026-04-24,2026-05-10,,2.1,,2,4,Gael Perez,2,
+199,4,Diseno de flujo de trabajo,done,critical,medium,2026-04-07,2026-04-07,2026-04-17,2026-04-16,2.1,,5,3,Yeimi Piste,2,True
+200,3,Presentacion del avance al equipo,in_progress,high,medium,2026-04-27,2026-04-28,2026-05-04,,3.1,,3,3,Yeimi Piste,2,

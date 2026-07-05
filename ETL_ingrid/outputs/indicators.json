@@ -1,15 +1,25 @@
 {
-  "n_tasks_total": 20,
-  "n_tasks_evaluated": 3,
-  "overall_on_time_rate_pct": 0.0,
-  "correlation_updates_vs_on_time": null,
-  "avg_updates_on_time": null,
-  "avg_updates_late": 1.33,
+  "n_tasks_total": 200,
+  "n_tasks_evaluated": 43,
+  "overall_on_time_rate_pct": 65.1,
+  "correlation_updates_vs_on_time": -0.726,
+  "avg_updates_on_time": 2.86,
+  "avg_updates_late": 5.73,
   "rate_by_update_bucket": [
     {
       "update_bucket": "1) Baja (0-2)",
-      "on_time_rate": 0.0,
-      "n_tasks": 3
+      "on_time_rate": 100.0,
+      "n_tasks": 11
+    },
+    {
+      "update_bucket": "2) Media (3-4)",
+      "on_time_rate": 82.4,
+      "n_tasks": 17
+    },
+    {
+      "update_bucket": "3) Alta (5+)",
+      "on_time_rate": 20.0,
+      "n_tasks": 15
     }
   ]
 }
