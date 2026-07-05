@@ -335,17 +335,3 @@ validates the platform skeleton by checking:
 - Data generation script.
 
 ---
-
-## Project Status
-
-This repository contains the working skeleton of the shared platform. It is not a final production system yet, but it provides the necessary structure for ETL analysis, demonstration, and final defense.
-
-Current status:
-
-- Database schema: available.
-- Sample data: available.
-- API documentation: available.
-- Frontend prototype: available.
-- ETL pipelines: in progress.
-- Synthetic data generation: available.
-- Final presentation and demo: pending.
