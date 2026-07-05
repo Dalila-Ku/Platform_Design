@@ -1,0 +1,373 @@
+[
+  {
+    "task_id": 1,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 4
+  },
+  {
+    "task_id": 2,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-05",
+    "changed_by": 11
+  },
+  {
+    "task_id": 2,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-05",
+    "changed_by": 10
+  },
+  {
+    "task_id": 3,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-10",
+    "changed_by": 2
+  },
+  {
+    "task_id": 3,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-16",
+    "changed_by": 4
+  },
+  {
+    "task_id": 3,
+    "previous_status": "in_progress",
+    "new_status": "todo",
+    "changed_at": "2026-07-21",
+    "changed_by": 9
+  },
+  {
+    "task_id": 4,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-06",
+    "changed_by": 8
+  },
+  {
+    "task_id": 4,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-07",
+    "changed_by": 13
+  },
+  {
+    "task_id": 4,
+    "previous_status": "in_review",
+    "new_status": "todo",
+    "changed_at": "2026-07-08",
+    "changed_by": 13
+  },
+  {
+    "task_id": 5,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-10",
+    "changed_by": 5
+  },
+  {
+    "task_id": 5,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-16",
+    "changed_by": 4
+  },
+  {
+    "task_id": 5,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-21",
+    "changed_by": 2
+  },
+  {
+    "task_id": 6,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-05",
+    "changed_by": 6
+  },
+  {
+    "task_id": 6,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 10
+  },
+  {
+    "task_id": 7,
+    "previous_status": "todo",
+    "new_status": "done",
+    "changed_at": "2026-07-11",
+    "changed_by": 9
+  },
+  {
+    "task_id": 7,
+    "previous_status": "done",
+    "new_status": "todo",
+    "changed_at": "2026-07-17",
+    "changed_by": 15
+  },
+  {
+    "task_id": 8,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 14
+  },
+  {
+    "task_id": 8,
+    "previous_status": "in_review",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 10
+  },
+  {
+    "task_id": 8,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 12
+  },
+  {
+    "task_id": 9,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 13
+  },
+  {
+    "task_id": 10,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-06",
+    "changed_by": 14
+  },
+  {
+    "task_id": 10,
+    "previous_status": "in_progress",
+    "new_status": "todo",
+    "changed_at": "2026-07-07",
+    "changed_by": 7
+  },
+  {
+    "task_id": 11,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 3
+  },
+  {
+    "task_id": 11,
+    "previous_status": "in_review",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 6
+  },
+  {
+    "task_id": 11,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 11
+  },
+  {
+    "task_id": 11,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 12
+  },
+  {
+    "task_id": 12,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 3
+  },
+  {
+    "task_id": 13,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 15
+  },
+  {
+    "task_id": 13,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 11
+  },
+  {
+    "task_id": 13,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-06",
+    "changed_by": 14
+  },
+  {
+    "task_id": 13,
+    "previous_status": "in_review",
+    "new_status": "todo",
+    "changed_at": "2026-07-06",
+    "changed_by": 4
+  },
+  {
+    "task_id": 13,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-06",
+    "changed_by": 13
+  },
+  {
+    "task_id": 14,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 2
+  },
+  {
+    "task_id": 14,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 15
+  },
+  {
+    "task_id": 14,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 4
+  },
+  {
+    "task_id": 14,
+    "previous_status": "in_review",
+    "new_status": "done",
+    "changed_at": "2026-07-05",
+    "changed_by": 7
+  },
+  {
+    "task_id": 15,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-07",
+    "changed_by": 3
+  },
+  {
+    "task_id": 15,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-09",
+    "changed_by": 12
+  },
+  {
+    "task_id": 15,
+    "previous_status": "in_progress",
+    "new_status": "in_review",
+    "changed_at": "2026-07-11",
+    "changed_by": 12
+  },
+  {
+    "task_id": 15,
+    "previous_status": "in_review",
+    "new_status": "done",
+    "changed_at": "2026-07-13",
+    "changed_by": 15
+  },
+  {
+    "task_id": 16,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 4
+  },
+  {
+    "task_id": 16,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 9
+  },
+  {
+    "task_id": 16,
+    "previous_status": "in_progress",
+    "new_status": "done",
+    "changed_at": "2026-07-05",
+    "changed_by": 2
+  },
+  {
+    "task_id": 16,
+    "previous_status": "done",
+    "new_status": "todo",
+    "changed_at": "2026-07-05",
+    "changed_by": 14
+  },
+  {
+    "task_id": 16,
+    "previous_status": "todo",
+    "new_status": "todo",
+    "changed_at": "2026-07-05",
+    "changed_by": 3
+  },
+  {
+    "task_id": 16,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 13
+  },
+  {
+    "task_id": 17,
+    "previous_status": "todo",
+    "new_status": "done",
+    "changed_at": "2026-07-05",
+    "changed_by": 7
+  },
+  {
+    "task_id": 17,
+    "previous_status": "done",
+    "new_status": "done",
+    "changed_at": "2026-07-05",
+    "changed_by": 9
+  },
+  {
+    "task_id": 17,
+    "previous_status": "done",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 9
+  },
+  {
+    "task_id": 18,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-25",
+    "changed_by": 13
+  },
+  {
+    "task_id": 19,
+    "previous_status": "todo",
+    "new_status": "in_review",
+    "changed_at": "2026-07-05",
+    "changed_by": 7
+  },
+  {
+    "task_id": 19,
+    "previous_status": "in_review",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-05",
+    "changed_by": 8
+  },
+  {
+    "task_id": 20,
+    "previous_status": "todo",
+    "new_status": "in_progress",
+    "changed_at": "2026-07-20",
+    "changed_by": 9
+  }
+]

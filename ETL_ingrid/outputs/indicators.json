@@ -1,0 +1,15 @@
+{
+  "n_tasks_total": 20,
+  "n_tasks_evaluated": 3,
+  "overall_on_time_rate_pct": 0.0,
+  "correlation_updates_vs_on_time": null,
+  "avg_updates_on_time": null,
+  "avg_updates_late": 1.33,
+  "rate_by_update_bucket": [
+    {
+      "update_bucket": "1) Baja (0-2)",
+      "on_time_rate": 0.0,
+      "n_tasks": 3
+    }
+  ]
+}
