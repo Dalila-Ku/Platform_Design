@@ -1,0 +1,16 @@
+{
+  "team_size": 5,
+  "roles_breakdown": {
+    "member": 3,
+    "admin": 1,
+    "leader": 1
+  },
+  "total_tasks": 20,
+  "completed_tasks": 12,
+  "completion_rate": 0.6,
+  "avg_days_high": 16.0,
+  "avg_days_others": 16.5,
+  "diff_high_vs_others": -0.5,
+  "conclusion": "Las tareas de alta prioridad se completan 0.5 días ANTES en promedio que las de prioridad media/baja. Respuesta a Q3: SÍ, se completan más rápido.",
+  "generated_at": "20260706_050954"
+}
